@@ -9,7 +9,7 @@ export function Sidebar() {
         <div>
           <h1 className="text-lg font-medium text-foreground">Derek Honerlaw</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Writing code, chasing runways, and the occasional wave.
+            Evolving through experiences.
           </p>
         </div>
         <Navigation />
