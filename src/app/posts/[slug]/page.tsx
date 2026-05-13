@@ -70,7 +70,7 @@ export default async function PostPage({ params }: PageProps) {
                   <time className="text-xs text-muted-foreground/70">
                     {formattedDate} · {post.readingTime}
                   </time>
-                  <h1 className="text-xl font-medium text-foreground mt-2 text-balance">
+                  <h1 className="text-2xl font-semibold text-foreground mt-2 text-balance tracking-tight">
                     {post.frontmatter.title}
                   </h1>
                   {post.frontmatter.tags && (
