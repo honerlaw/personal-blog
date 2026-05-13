@@ -1,5 +1,6 @@
 import { Navigation } from "./navigation";
 import { SocialLinks } from "./social-links";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Sidebar() {
   return (
@@ -13,7 +14,10 @@ export function Sidebar() {
         </div>
         <Navigation />
       </div>
-      <SocialLinks />
+      <div className="flex items-center justify-between">
+        <SocialLinks />
+        <ThemeToggle />
+      </div>
     </aside>
   );
 }
