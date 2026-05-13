@@ -5,16 +5,16 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/", label: "about" },
-  { href: "/posts", label: "posts" },
-  { href: "/projects", label: "projects" },
+  { href: "/", label: "About" },
+  { href: "/posts", label: "Posts" },
+  { href: "/projects", label: "Projects" },
 ];
 
 export function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-1">
+    <nav className="flex flex-row gap-4 lg:flex-col lg:gap-1">
       {navItems.map((item) => {
         const isActive =
           item.href === "/"

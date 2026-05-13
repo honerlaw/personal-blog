@@ -11,11 +11,13 @@ export function Sidebar() {
           <p className="text-sm text-muted-foreground mt-1">
             Evolving through experiences.
           </p>
+          <div className="mt-4">
+            <SocialLinks />
+          </div>
         </div>
         <Navigation />
       </div>
-      <div className="flex items-center justify-between">
-        <SocialLinks />
+      <div className="flex items-center justify-end">
         <ThemeToggle />
       </div>
     </aside>
