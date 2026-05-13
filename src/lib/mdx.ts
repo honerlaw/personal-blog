@@ -27,6 +27,7 @@ export interface ProjectFrontmatter {
   tags: string[];
   url?: string;
   github?: string;
+  repo?: string;
   featured?: boolean;
   order?: number;
 }
