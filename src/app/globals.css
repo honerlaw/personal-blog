@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (@media (prefers-color-scheme: dark));
 
 :root {
   /* Light mode - neutral white/grey with ocean teal accent */
@@ -40,7 +40,8 @@
   --sidebar-ring: oklch(0.55 0.12 195);
 }
 
-.dark {
+@media (prefers-color-scheme: dark) {
+  :root {
   /* Dark mode - off-black with ocean teal accent */
   --background: oklch(0.12 0.005 240);
   --foreground: oklch(0.93 0.005 240);
@@ -74,6 +75,7 @@
   --sidebar-accent-foreground: oklch(0.93 0.005 240);
   --sidebar-border: oklch(0.25 0.005 240);
   --sidebar-ring: oklch(0.70 0.12 195);
+  }
 }
 
 @theme inline {
