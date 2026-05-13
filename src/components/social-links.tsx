@@ -1,20 +1,15 @@
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 
 const socialLinks = [
   {
-    href: "https://github.com",
+    href: "https://github.com/honerlaw",
     label: "GitHub",
     icon: Github,
   },
   {
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/derek-j-honerlaw/",
     label: "LinkedIn",
     icon: Linkedin,
-  },
-  {
-    href: "https://x.com",
-    label: "X/Twitter",
-    icon: Twitter,
   },
 ];
 
