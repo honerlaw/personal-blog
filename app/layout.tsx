@@ -8,8 +8,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Your Name — Software Engineer & Engineering Leader',
-  description: 'Personal website and microblog of a software engineer and engineering manager. Thoughts on leadership, technology, and building great teams.',
+  title: 'Derek Honerlaw',
+  description: 'Software engineer, engineering leader, and student pilot. Writing about code, AI, leadership, and the things that keep life interesting.',
   generator: 'v0.app',
   icons: {
     icon: [

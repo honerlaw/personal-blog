@@ -22,22 +22,19 @@ export default function HomePage() {
               {/* About Section */}
               <section className="mb-16">
                 <p className="text-foreground leading-relaxed">
-                  {"I'm"} a software engineer and engineering leader passionate
-                  about building products that matter and teams that thrive.
-                  Currently focused on scaling engineering organizations while
-                  staying close to the craft.
+                  {"I'm"} Derek—a software engineer and engineering leader who still loves writing code. 
+                  Building software is my craft and my hobby. I spend my time exploring AI, 
+                  tinkering with new languages and frameworks, and leading teams that ship things that matter.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
-                  I grew up near the water—beaches and rivers shaped how I
-                  think. There&apos;s something about the rhythm of tides and
-                  the patience of currents that influences how I approach
-                  problems: with calm persistence and respect for natural
-                  systems.
+                  I grew up on the beach, near rivers—water has always been home. 
+                  These days I&apos;m a bit more inland, trading waves for running trails. 
+                  My newest pursuit: working toward my private pilot&apos;s license. 
+                  There&apos;s something about learning to fly that feels like learning to code for the first time again.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
-                  Previously built systems at companies you might recognize.
-                  These days I write about leadership, technical decisions, and
-                  the intersection of both.
+                  Here I write about the things I&apos;m building, learning, and thinking through—
+                  software, leadership, and whatever else catches my attention.
                 </p>
               </section>
 

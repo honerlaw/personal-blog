@@ -7,9 +7,9 @@ export function Sidebar() {
     <aside className="flex flex-col justify-between h-full py-12 lg:py-20">
       <div className="flex flex-col gap-8">
         <div>
-          <h1 className="text-lg font-medium text-foreground">Your Name</h1>
+          <h1 className="text-lg font-medium text-foreground">Derek Honerlaw</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Software Engineer & Engineering Leader
+            Writing code, chasing runways, and the occasional wave.
           </p>
         </div>
         <Navigation />
