@@ -1,0 +1,31 @@
+---
+title: "Simplicity Is a Feature"
+date: "2024-01-02"
+excerpt: "The hardest part of engineering isn't building complex systems. It's resisting the urge to build them when simple ones will do."
+tags: ["engineering", "architecture", "philosophy"]
+published: true
+---
+
+The hardest part of engineering isn't building complex systems. It's resisting the urge to build them when simple ones will do.
+
+Early in my career, I measured my worth by the complexity of my solutions. Microservices, event sourcing, distributed caches—the more sophisticated, the better.
+
+Now I know better. Complexity is a cost, not a feature.
+
+## The Questions I Ask Now
+
+Before adding any abstraction, I ask:
+
+1. **What problem does this solve?** Not "what problems might this solve someday"—what problem does it solve *right now*?
+
+2. **What's the simplest solution?** Usually it's embarrassingly straightforward.
+
+3. **What's the cost of being wrong?** If we can easily change course later, start simple.
+
+## A Practical Example
+
+A team once proposed a message queue for a feature that processed maybe 100 events per day. The "proper" solution. The enterprise-ready solution.
+
+We used a database table with a status column instead. It took an afternoon to build and has run flawlessly for three years.
+
+Sometimes the boring solution is the right solution.

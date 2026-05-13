@@ -1,0 +1,19 @@
+---
+title: "drift"
+description: "Real-time collaborative markdown editor with conflict-free replicated data types (CRDTs) for seamless multiplayer editing."
+tags: ["TypeScript", "CRDTs", "WebSockets"]
+url: "https://example.com"
+github: "https://github.com"
+featured: true
+order: 2
+---
+
+Drift is an experiment in local-first software. It works offline, syncs instantly when connected, and never loses your edits—even when multiple people edit the same document simultaneously.
+
+## Technical Approach
+
+Built on Yjs for CRDT operations, with a custom WebSocket server for real-time sync. The editor uses CodeMirror 6 for a native-feeling editing experience.
+
+## Why I Built This
+
+I wanted to understand CRDTs beyond the theory. Building Drift taught me that the hard part isn't the algorithm—it's the UX around conflict resolution and presence awareness.
