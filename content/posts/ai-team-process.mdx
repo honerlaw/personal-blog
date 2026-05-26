@@ -1,0 +1,67 @@
+---
+title: "How I Got My Platform Team to Actually Adopt AI Tooling"
+date: "2026-05-13"
+excerpt: "Four principles and a lightweight system that got a platform team from AI-curious to AI-native in a few months."
+tags: ["Credit Karma", "Intuit", "LLM", "AI"]
+published: true
+---
+
+A few months ago, Credit Karma and Intuit mandated that teams should be heavily leveraging AI tooling in order to "3x velocity". A lot of teams did not really know what to do with that. I decided our team, the Backend Frameworks team at Credit Karma, should jump in head first and figure it out by doing rather than debating what "3x" even means.
+
+So in order to make that happen, I focused on three things:
+
+1. Align the team on what AI adoption actually looks like day to day.
+2. Build a system that makes AI usage consistent and shareable across engineers.
+3. Create a space to iterate openly on what is working and what is not.
+
+## Team alignment
+
+The first thing I needed was to get the team comfortable. Not productive yet, just comfortable. The first thing you should do with any new tool, whether it is a programming language or a linter, is get familiar with how it works, what it is good at, and where it falls short. We could figure out how to measure things later.
+
+So I shared four expectations with the team that would outline how we were going to operate going forward.
+
+### AI is not a replacement
+
+This was the foundation of everything else. Engineers needed to hear it plainly: AI is not replacing your job or what you do on a day to day basis. Yes, engineers write code, but more importantly, they understand how code should flow and work. LLMs are prediction engines. They do not know if the code they produce is performant, secure, or even correct, so it is still the responsibility of an engineer to make sure the output is something they would be proud of.
+
+There was real skepticism early on. Some folks worried AI would degrade code quality or make their expertise less valuable. Those concerns were valid, and they largely resolved themselves once people spent time with the tools and saw where the boundaries were. In some cases, engineers found they spent more time wrestling an LLM through a complex problem than they would have just writing the solution themselves. And that is fine, because knowing when not to use the tool is part of knowing the tool.
+
+### Know your tools
+
+This seems obvious, but we treated it seriously. For any tool (like a linter, or typechecking, or anything else), you should know when to apply the tool and what it excels at. We took this same philosophy towards LLMs, but more specifically the agentic harness and the pieces that make LLMs more effective. Things like how to manage context windows, memory, agent skills, prompt engineering, etc. The field is growing rapidly and it was important that engineers on the team understand at least some fundamentals of how an agentic harness works and how to make them more effective rather than fighting them.
+
+### Prompt first
+
+Another shift was focusing on prompting first. The idea was that you should attempt to start everything with AI. This does not mean that everything has to be solely produced by AI. The goal was to force familiarity. The more you use the tools, the faster you learn what they are good at and where they fall apart.
+
+When sharing with the team, I phrased this as "80% prompting, 20% refinement" where the last mile should be the engineer. In practice, that ratio has shifted a lot further than I expected. Most engineers on the team now prompt for nearly everything, and they only drop into manual code a small fraction of the time. Even the refinement itself is prompt oriented now. It took a few months to get there, but the original framing gave people a concrete mental model to start from.
+
+### Pull requests are human only
+
+The final expectation was that pull requests were a human oriented space. Everyone on the team should run multiple rounds of AI reviews before opening or sharing a PR. As a reviewer, you can definitely use AI to help analyze a PR or even understand the PR yourself, but you should avoid pasting an AI response directly into someone else's review. The focus here was to reduce iteration in a pull request by catching issues before they reach a reviewer, and to make sure that when humans are talking to each other about code, they are actually talking to each other.
+
+## Skills marketplace
+
+In order to make AI usage more consistent and shareable, we stood up an internal skills marketplace pretty quickly. The goal was to align with the Agent Skills open standard, with a focus towards Cursor and Claude since those are the main tools used at Credit Karma and Intuit.
+
+We built the initial version in a few hours using Claude and within a week or so we had shipped several skills for our team and for the company. Our `eng` plugin covered a few common skills needed to do the SDLC, things like code review, spec generation, and validation workflows. But the bigger win was migration tooling. We own the framework that most Credit Karma services are built on, so being able to give teams a skill that handles dependency upgrades and framework migrations directly in their AI tool was a big step toward the adoption problem we had been trying to solve for years. We are now expanding that same approach for feature enablement as well.
+
+The marketplace stuck because the friction was low on both sides. Contributing a skill was easy since we had standard patterns, built-in evals, and linters that check for basic quality standards. Using a skill was just as easy because the skills plugged directly into the tools engineers were already using, so teams did not have to learn anything new. Other teams saw the value quickly and started contributing their own plugins. The Credit Cards team shipped skills that the Personal Loans team did not know they needed until they could see them in one place. It also meant future proofing, since the skills and plugins could be easily integrated into the broader Intuit ecosystem. In the end, the marketplace became a standard at Credit Karma.
+
+## Knowledge sharing
+
+Finally, we stood up a weekly open discussion for the team to talk about what is working and what is not with AI tools. No formal agenda, no slides, just a space for folks to compare notes with each other.
+
+People keep showing up because the discoveries are real. Someone found that `/branch` in Claude changed how they manage parallel work, and that rippled across the whole team within a week. Developer setups vary wildly, the same way IDE preferences do. Some folks run tmux heavy workflows, others have built their own tools on top of AI. Seeing how other people work surfaces ideas you would never arrive at on your own.
+
+One recurring thread that keeps coming up is context management, specifically how to structure repositories and documentation so that AI tools have the right information available. We have not landed on a definitive answer yet, but we are starting to converge on the idea that more context should live in the repository itself, close to the code it describes.
+
+## What we found
+
+Our team now has the highest AI tool usage in our division, and that is reflected in the overall velocity our team sees. We generally gauge success based on the number of PRs and the turnaround time of PRs, avoiding metrics like lines of code and instead focusing on whether we are delivering more frequently than we were a year ago before we had access to these tools.
+
+It was not all clean though. Total PR count went up, but so did time to review. Not because reviewers could not keep up, but because it exposed a gap in ownership around who should actually review these things. That problem existed before AI tooling, but it was invisible when the volume of PRs naturally worked itself out. Higher throughput made the bottleneck obvious. We also had to deal with scope creep in individual PRs. It is very easy to tack on one more small thing with an LLM, and people do. PR quality stayed roughly the same, but keeping scope tight became a new thing we had to be more intentional about.
+
+## What is next
+
+The adoption question is mostly answered for our team at this point. The problems we are working through now are the ones that come after adoption: tighter guardrails around code quality and complexity, more deterministic validation and automation, more consistent usage of certain skills for certain stages of the development process, and better standards around capturing and sharing knowledge. Most of these were problems before AI. They are just amplified now that the team is moving faster.

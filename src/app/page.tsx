@@ -22,19 +22,18 @@ export default function HomePage() {
               {/* About Section */}
               <section className="mb-16">
                 <p className="text-foreground leading-relaxed">
-                  {"I'm"} Derek—a software engineer and engineering leader who still loves writing code. 
-                  Building software is my craft and my hobby. I spend my time exploring AI, 
-                  tinkering with new languages and frameworks, and leading teams that ship things that matter.
+                  I am Derek, a software engineering leader. People are at the
+                  center of everything I do. The best software comes from teams
+                  that actually want to be there and trust each other.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
-                  I grew up on the beach, near rivers—water has always been home. 
-                  These days I&apos;m a bit more inland, trading waves for running trails. 
-                  My newest pursuit: working toward my private pilot&apos;s license. 
-                  There&apos;s something about learning to fly that feels like learning to code for the first time again.
+                  I also never stopped building. New programming languages,
+                  paradigms, tooling, whatever. If it moves the craft forward I
+                  am probably already experimenting with it.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
-                  Here I write about the things I&apos;m building, learning, and thinking through—
-                  software, leadership, and whatever else catches my attention.
+                  Here I write about what I am building, learning, and thinking
+                  through.
                 </p>
               </section>
 
