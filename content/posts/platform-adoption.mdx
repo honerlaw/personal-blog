@@ -1,0 +1,65 @@
+---
+title: "Migrating a platform without a mandate"
+date: "2026-06-01"
+excerpt: "Building the framework was the easy part. Getting dozens of teams to adopt it took a playbook, and AI is starting to rewrite that playbook."
+tags: ["Credit Karma", "Intuit", "Platform Engineering", "AI"]
+published: true
+---
+
+For the last three and a half years at Credit Karma, most of my work has been about modernizing an aging platform stack. It started with the frontend. After we shipped that, I was asked to do the same thing on the backend.
+
+I could write a lot about the technology choices. The technology was never the hard part. The hard part was getting people to adopt what we built. A framework that no one uses is worthless. So most of what follows is really about that problem, and about how the way we solve it is starting to change.
+
+## Why we needed a new frontend framework
+
+Our frontend stack was built on React, but almost everything around React was home grown. Server side rendering, network requests, state management, all of it ran on a custom in-house framework. That worked for a while. The problem was the future. Every time the broader ecosystem moved, whether that was streaming, a new flavor of server side rendering, or React Server Components, it was on our team to implement it and roll it out safely. We were permanently behind, maintaining a private copy of features the open-source world was shipping for free.
+
+About three and a half years ago, a staff engineer and I agreed this was not sustainable. We decided to move to an open-source base framework that could keep up with the modern world on its own. After a SWOT analysis across a few options, we landed on Next.js. Over roughly six months, we built the initial version of our framework on top of it.
+
+## A framework no one uses
+
+None of this is novel. Companies modernize all the time. But building the framework just handed us a new problem: dozens of legacy applications, and no one using the new thing.
+
+Historically, the way we drove a change like this was top down. Align leadership and the business on the strategy, then ask teams to fall in line. So that is what we tried first. We hit a wall almost immediately. We had no real-world data showing the move was worth it, so we were asking teams to spend time migrating on faith.
+
+So we pivoted. Instead of arguing strategy, we looked at what the company was already trying to ship and where it was hurting. One product stood out. It had real performance problems, taking around five seconds to render a page. We took an engineer, refactored that application onto the new framework, and made a point of working inside the team's existing timelines so we were not blocking their roadmap. The result was a render time cut by more than half, from about five seconds to around two.
+
+Now we had production data, not a pitch deck.
+
+## Forward deployed engineers
+
+With real numbers, we made the case again: every team should move to the new framework. This time leadership bought in. But there was still no mandate, and migrating was not free. A typical app might take days to weeks. One of the largest and most complex applications at the company took a full quarter.
+
+So we tried something the company had not really done before. We stood up a small pod of engineers, two at first, then four. For a year, this was our forward deployed engineering team. Their entire job was to go migrate other teams' applications and prove the framework held up under real conditions. That meant doing the migration work itself, coordinating around each team's product commitments, and running regression testing with QE, across dozens of applications.
+
+It worked better than I expected. By the end of that year, we had fully deprecated the legacy frontend stack, and every new team and new application was building on the new one. As far as I know, it was the first migration of that scale to fully succeed at the company. Most migrations like this stall, with the old and new stacks coexisting forever. This one actually finished.
+
+## Running the playbook again, on the backend
+
+That whole frontend effort took about two and a half years. Roughly a year and a half of planning and building, then a year of rollout. After it landed, I was asked to do it again on the backend.
+
+The shape was familiar. The scale was not. Instead of dozens of applications in one language, this was several hundred services split across two languages, with roughly a third on a Node and TypeScript stack and the rest on Scala and Finagle.
+
+We also had a different starting point. An internal SDK had been in flight for years, a write-once, run-on-multiple-runtimes framework meant to let us share core logic across Node, the JVM, and Python. We spent the year before consolidating framework logic into shared capabilities built on that SDK, then updating the language-specific frameworks to use those capabilities instead of their own runtime-specific implementations. During that work, we also replaced the legacy Finagle stack with a modern Spring Boot stack running on the same SDK.
+
+The point of that consolidation was leverage. Once a piece of logic lived as a shared capability, we could change it, upgrade it, or migrate it once and have every runtime pick up the change, instead of reimplementing the same thing separately in each language. Without that step, a migration across several hundred services in two languages would have meant doing most of the work twice.
+
+We are close to making these new frameworks generally available, in the next couple of months. We have started migrating a handful of pilot services this quarter, but none of them are far enough along to give us real numbers yet. So unlike the frontend, I cannot point you to a clean before-and-after on the backend. We have not had our proof moment yet. What comes after GA is the part I have done before: the long, grinding migration of several hundred services onto the new frameworks.
+
+## Where AI changes the playbook
+
+Going into the next fiscal year, I do not want to run the backend migration the way we ran the frontend one. The forward deployed model worked, but it is expensive and it is manual. People doing the same mechanical migration steps over and over, service after service.
+
+Over the last six months, in parallel with the modernization work, we built a way to run generic changes across all of our services at once. We built it mostly for validation. But somewhere in there we realized the same machinery could run an AI-driven migration across a codebase, and then tell us how well it went. Did the build-time tasks pass? Did runtime checks and deployments to lower environments work? Those signals gave us a feedback loop.
+
+That loop turned out to be the valuable part. We could iterate on a prompt and measure how effective it actually was at a real task, whether that was enabling a feature, upgrading a version, or doing a large-scale code migration. Instead of guessing whether a prompt was good, we could run it across services and watch what passed.
+
+It is early. We have only run this on a limited set of changes, not a full migration, so I do not want to oversell it. But the early runs were promising enough that we are willing to build next year's plan around it.
+
+So the plan for next year keeps the forward deployed pod, but flips its job. Instead of our engineers migrating each service by hand, teams run the automation themselves. Our team focuses on fixing the automation when it breaks and handling the cases it cannot. The pod stops being the migration labor and becomes the thing that keeps the migration engine running.
+
+## What is next
+
+I do not know yet how well this scales. The frontend playbook took a small team a year of manual work to migrate dozens of applications. We are about to point an automated version of that playbook at several hundred services. If it works even partly, the math is very different from the last time I did this. If it does not, we still have the model we know works, just slower.
+
+Either way, the lesson from the last few years holds. Building the framework is the part you can plan. Getting the company to actually move onto it is the part that decides whether any of it mattered.
