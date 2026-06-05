@@ -1,0 +1,39 @@
+---
+title: "My journey with AI tooling"
+date: "2026-06-04"
+excerpt: "How I went from using AI to write the occasional unit test to building entire products with it and reshaping how I run performance reviews."
+tags: ["Credit Karma", "AI", "LLM", "Engineering Management"]
+published: true
+---
+
+I have been using various AI tooling since around late 2024. Back then, even though that is really not that long ago, the tooling did not feel very advanced. I used it occasionally to write unit tests here and there, or to summarize some short piece of information, but it was a secondary utility to my normal day to day of management and code. I almost never used it for management tasks, and only on a handful of actual projects. That changed around September 2025, when I decided to lean pretty heavily into understanding the ecosystem around agentic coding, how the tools actually worked, and what made them work well.
+
+## Building a first agent
+
+My first venture was exploring LLMs for financial analysis, something I was interested in for personal use. The result was [verena](https://github.com/honerlaw/verena), my first look at how to create an actual agentic chat experience. It taught me how the various agent SDKs from different companies worked, and gave me better insight into prompt engineering, context management, and tooling. The prototype worked rather well, but the product was never really the point. The point was understanding how to build an agent that could interact with data, other systems, and a user.
+
+## Going all in
+
+In early November 2025, I decided to dive head first into leveraging AI in as much of my day to day as possible. Partly to force myself to learn how to apply it on personal projects, and partly to figure out how it could accelerate or scale my management work. I also used this time to understand the standards forming around agentic applications and tooling: context management, caching, RAG, embeddings, quantization, MCP, skills, agents, sub agents.
+
+By this point, LLMs were getting quite good at producing code. I narrowed in on Claude from Anthropic, used it as a CLI first tool, and built [SoberJourney](https://github.com/honerlaw/SoberJourney). There was still some manually written code, and some code copied from other projects I have written over the years, but this was my first attempt to lean on an LLM to produce all of the code for a project. It worked pretty well. I started to understand the limitations of an LLM, how different models behaved, and what worked or did not work. From November to January, SoberJourney was most of what I did, and I launched it on web and the Apple App Store (it is still up at soberjourney.app if you want to check it out).
+
+In that same window, I also built [seekless.ai](https://www.seekless.ai) with a stricter rule: all code would be written, tested, and reviewed by an LLM. I will write another article in more depth about that experience, because it produced a ton of insight into how to keep a codebase in check while still delivering features quickly. It also gave me a preview of what I could expect from engineers on my team going forward, and how I believe the engineering role will change, or has already started to.
+
+## Bringing it into management
+
+Then in January, I started to dig into how I could leverage Claude in my management work at Credit Karma. We were coming up on performance reviews for the six month cycle, along with planning for fiscal Q3, and I decided to use LLMs for as much of that as possible. I used Claude to build out several MCP servers against the data sources we had at work: Slack, email, Google Drive, GitHub, Jira, Airtable.
+
+Some context on my normal process. Whenever I do quarterly or mid year reviews, I write a document containing my entire review in depth, with links and sources to Google Docs, projects the person ran, how they interacted with the team, and feedback from other engineers. That process did not change. I still wrote my documents by hand, from manually discovered information and from my own experience interacting with each person directly.
+
+After those docs were written, I was curious whether the LLM could produce something similar, or at minimum check my work in three ways. First, check for any bias I may have in my document. Second, check for any work I missed, like helping a teammate solve a problem, or a small PR that drastically improved quality of life. Third, run a blind review against our career framework to see whether the LLM agreed with my leveling, basically asking it what level of engineer it thought each person was.
+
+The data side worked from the start. The prompts I put together were fantastic at aggregating the data and keeping links back to the sources. The framework evaluation failed horribly. I was eventually able to refine the prompts and get evaluations that were more accurate, or at least more reflective of my own assessments. What I took away from the experiment: LLMs are very good at accelerating the data collection, aggregation, and summarization side of evaluations, and much worse at understanding how well a person is actually performing at a company. It would sometimes conclude someone was massively underperforming when in reality they were exceeding expectations, purely because it could not quantify their work properly.
+
+The time savings were real, though. Data collection went from around two days per person down to a few hours. From there I wrote my docs normally, referencing the collected data alongside my personal experience.
+
+## What I make of it
+
+Agentic tooling is extremely powerful, but it is not all powerful. There is still a large amount of human involvement needed. In my mind, it is similar to the internet. We went from information being shared and discovered through books (I remember looking up random facts in my family's encyclopedia set when I was a kid) to information being shared through the internet in close to real time. That reduced the time to get accurate information down to seconds, especially once smartphones and search engines arrived. But that created a new problem. There was now a ton of data available, and sorting the relevant from the irrelevant became painful. I believe AI is the next iteration of that. Yes, generative models can produce a lot of content, but they are also excellent at finding relevant information, summarizing it, and giving the user something they can actually act on.
+
+Long story short, it is an incredibly powerful tool. Many jobs will shift in what is expected of them or what they do, but it is not a replacement for human involvement. It is an accelerant for the work people did not always enjoy. Although I will miss the days of banging my head against a wall trying to figure out why a piece of code did not work, and then being extremely elated when I finally discovered the problem and fixed it.
