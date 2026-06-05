@@ -33,7 +33,7 @@ export default function PostsPage() {
                       excerpt={post.frontmatter.excerpt}
                       date={new Date(post.frontmatter.date).toLocaleDateString(
                         "en-US",
-                        { month: "long", year: "numeric" }
+                        { month: "long", day: "numeric", year: "numeric" }
                       )}
                       slug={post.slug}
                     />
