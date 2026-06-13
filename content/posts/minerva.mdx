@@ -24,6 +24,8 @@ The core discipline: when you finish a piece of work, you do not just close the 
 
 The heuristic I use to decide what belongs in the knowledge layer: would a new engineer joining this project in a year benefit from reading this? If yes, it goes in. If no, it gets summarized and discarded. That question does a surprisingly good job of separating what matters from in-progress noise.
 
+This is the same pattern Andrej Karpathy [outlined](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): rather than re-deriving answers from raw documents on every query, you have an LLM maintain a wiki that compounds over time. New information comes in, gets processed, and updates the relevant pages. The wiki becomes more useful the longer it runs. We had been thinking about migrating our documentation structure to this approach at work, and building minerva was partly how I worked through what that actually looks like in practice. The `.minerva/knowledge/` directory is that pattern applied to a codebase. Each promote operation adds an entry. A lint step catches index drift and broken cross-references. A synthesize step generates a theme-grouped overview once enough entries accumulate. The LLM maintains it, which means it actually stays maintained.
+
 ## The lifecycle
 
 The workflow has a shape. You start by writing a proposal. Not a formal document, just a clear statement of what you are trying to build, how you are approaching it, and what success looks like. That proposal lives in a file tied to the work unit. When the work drifts from the plan, you update the plan. When it is done, the proposal gets rewritten to describe what actually shipped.
