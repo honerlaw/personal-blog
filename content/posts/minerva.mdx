@@ -36,6 +36,18 @@ From there, the agent handles the rest. Commit the work, open a pull request, wa
 
 The whole thing runs through a set of skills: `minerva:propose`, `minerva:work`, `minerva:review`, `minerva:promote`, `minerva:ship`, `minerva:cleanup`. Each one reads the knowledge layer before doing anything, so it is not starting from scratch.
 
+## Taking myself out of the loop
+
+The full lifecycle works, but running it manually means the agent is asking you questions at every decision gate. What approach should we take? Should we prioritize X or Y? Here are three options, which do you want?
+
+After a while I noticed two things about those questions. A lot of them had an obvious right answer that I would confirm and move on. The others were stranger: the agent would offer two or three approaches it had generated, and then ask me to pick one. I was being asked to judge between options I had no independent opinion about. Half the time I would ask it why it preferred one over another, which made the question circular.
+
+What I wanted was a way to resolve those questions without me in the loop at all, unless the answer genuinely required my judgment. So I built `minerva:propose-ship-auto`, which runs the same full lifecycle but replaces each decision gate with what I call a round table.
+
+The round table convenes three fresh agent instances on the question. One argues for the proposed direction. One is a skeptic and tries to poke holes in it or argue the other side. A third acts as an arbiter and weighs both. Two out of three in agreement is the answer, and work continues. If they cannot reach consensus after one revision round, the question escalates to me. Small operational decisions like commit messages and PR descriptions bypass the panel entirely since the cost of getting those wrong is low and reversible.
+
+The result is that I mostly see escalations, not routine questions. The panel handles the decisions where the answer is defensible but not obvious, which turns out to be most of them. I get pulled in when the agents genuinely disagree, which is the point where my input actually matters.
+
 ## What it has been like in practice
 
 The part that has made the biggest difference is not any single skill. It is starting a new session in a project and having the agent already understand the relevant constraints. Not because I explained them again, but because they were already in the knowledge layer from prior work. Starting a session feels different when the agent is actually caught up.
