@@ -1,0 +1,51 @@
+---
+title: "Building a memory for my AI agent"
+date: "2026-06-13"
+excerpt: "AI sessions are stateless. The work is not. I built a plugin to close that gap."
+tags: ["AI", "LLM", "Engineering", "Claude Code"]
+published: true
+---
+
+At some point earlier this year, I started noticing a pattern that was costing me more time than I wanted to admit. I would finish a solid session with Claude, work through an approach, hit a dead end, find another way. Come back the next day and the agent had no idea any of it happened. I had to explain it again, or worse, I would forget I had already worked through it and end up in the same place twice.
+
+This is not a bug in Claude. It is just how these tools work. Sessions are stateless. Each new conversation starts from whatever context you feed it, and if you do not feed it the right things, you are starting from scratch. For quick one-off tasks that is fine. When you are using AI tools every day across real projects, it becomes a real problem.
+
+## What it actually costs you
+
+The frustrating part is not any single session. It is the compounding effect. Decisions get re-litigated because the agent has no memory of why you made them. Patterns get rediscovered. You end up describing the same constraints to a new session that you already worked through a week ago. The agent is not the problem. What is missing is a record of what actually happened and what you learned from it.
+
+I started patching this with CLAUDE.md files and ad hoc notes. That helped, but it did not hold. Notes accumulated without structure, things went stale, and I still had to manually decide what was worth feeding into a new session and what was not. It was better than nothing, but it was a messier version of the same problem.
+
+## What I built
+
+I built [minerva](https://github.com/honerlaw/agent-marketplace), a plugin for Claude Code that enforces a discipline around how work gets recorded and what survives between sessions.
+
+The core discipline: when you finish a piece of work, you do not just close the session. You pull out what actually matters. What you decided and why. What did not work. What something in the codebase silently depends on. Those go into a knowledge layer. Everything else gets archived. Proposals get rewritten to describe what actually shipped, not what you intended when you started.
+
+The heuristic I use to decide what belongs in the knowledge layer: would a new engineer joining this project in a year benefit from reading this? If yes, it goes in. If no, it gets summarized and discarded. That question does a surprisingly good job of separating what matters from in-progress noise.
+
+## The lifecycle
+
+The workflow has a shape. You start by writing a proposal. Not a formal document, just a clear statement of what you are trying to build, how you are approaching it, and what success looks like. That proposal lives in a file tied to the work unit. When the work drifts from the plan, you update the plan. When it is done, the proposal gets rewritten to describe what actually shipped.
+
+Implementation happens in an isolated git worktree. That keeps in-progress work off the main branch and keeps the agent oriented in the right context.
+
+After the build, you review what shipped against the proposal. Then you promote. That is where you pull out the things worth keeping. What you decided. What you tried that did not work. Anything future work will need to know. Those go into the knowledge layer. The scratchpad gets archived.
+
+From there, the agent handles the rest. Commit the work, open a pull request, watch CI, clean up after the branch merges.
+
+The whole thing runs through a set of skills: `minerva:propose`, `minerva:work`, `minerva:review`, `minerva:promote`, `minerva:ship`, `minerva:cleanup`. Each one reads the knowledge layer before doing anything, so it is not starting from scratch.
+
+## What it has been like in practice
+
+The part that has made the biggest difference is not any single skill. It is starting a new session in a project and having the agent already understand the relevant constraints. Not because I explained them again, but because they were already in the knowledge layer from prior work. Starting a session feels different when the agent is actually caught up.
+
+The overhead is real. The propose and promote steps add time to each unit of work, and for small things, a single-file change or a quick fix, the ceremony is not worth it. I skip it. Minerva is for work that is substantial enough that someone coming to the project later, human or agent, will need the context to understand why things are the way they are. The discipline only pays off if you apply it at the right level.
+
+The other thing I noticed is that writing the proposal forces clarity before implementation starts. If I cannot write down what I am building and what success looks like, that is usually a signal that I do not understand the problem well enough yet. The agent will feel that too. A vague proposal produces a vague session.
+
+## Where it goes
+
+Minerva is a personal tool right now, part of a plugin marketplace I built for managing Claude Code skills across projects. I use it on everything I build with real scope. Whether it makes sense for teams is a different question. The discipline assumes you care about accumulating a knowledge base over time, and not every project is worth that investment.
+
+But the underlying problem is not going away. The more you rely on AI for actual work, the more it costs when sessions start from nothing. The sessions that work best are the ones where the agent already knows the history. That does not happen by accident.
