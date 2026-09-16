@@ -9,10 +9,10 @@ export function Sidebar() {
         <div>
           <div className="w-full max-w-xs mb-5 overflow-hidden rounded-md">
             <Image
-              src="/pillars.jpg"
-              alt="Pillars of Creation captured by the James Webb Space Telescope (NASA, ESA, CSA, STScI)"
-              width={450}
-              height={600}
+              src="/headshot.jpg"
+              alt="Derek Honerlaw"
+              width={601}
+              height={900}
               className="w-full h-auto"
               priority
             />
