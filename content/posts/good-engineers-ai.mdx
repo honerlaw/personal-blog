@@ -1,0 +1,87 @@
+---
+title: "What makes a good software engineer in the age of AI"
+date: "2026-10-02"
+excerpt: "Most of what makes a good engineer has not changed. AI just makes the gap between good and not-so-good engineers a lot wider."
+tags: ["AI", "LLM", "Engineering", "Leadership"]
+published: false
+---
+
+I have been thinking a lot about what actually makes someone a good software engineer now that a large share of the code we ship is written by a model. My honest answer is that most of it has not changed. The traits that made engineers good before AI are the same traits that make them good now. What has changed is how much leverage those traits give you, and a couple of new skills that nobody was really taught.
+
+I also wanted to see how my list holds up against what other people in the industry are saying, so for each one I have pulled in where others agree and where they push back.
+
+## Curiosity: ask why before you build
+
+Good engineers have always asked why. Why was this built the way it was? Why does this service talk to that one? What constraint is implicitly defined somewhere that I am about to break?
+
+They try to understand as much of the system as they reasonably can before writing code in it. Not just so they can implement their feature, but so they can reuse what already exists and avoid stepping on something that is load-bearing for a reason nobody wrote down. At a large company with hundreds or thousands of microservices, you are not going to understand all of it, and you do not need to. But you should understand the touch points of the services you are working in, and, where you can, the history behind the decisions that shaped them.
+
+This is not a new idea. It is basically [Chesterton's fence](https://en.wikipedia.org/wiki/G._K._Chesterton#Chesterton's_Fence): do not tear down a fence until you know why it was put up. What is new is that a model will happily tear the fence down for you in seconds if you do not know it is there.
+
+## Spec it out, then argue with the model
+
+That same curiosity carries over directly to working with an LLM. A good engineer does not open a session and say "go implement this feature." They spec out what they want to do, why they are doing it, and what the goal of the change actually is. Then they go back and forth with the model. Why did it make that decision? Why did the output not line up with what I expected?
+
+Because they understand what is happening and why, they can guide the model toward the right change for the system as a whole, often before they ever look at the diff.
+
+This is one of the places where there is pretty broad agreement. Simon Willison, in his post on [vibe engineering](https://simonwillison.net/2025/Oct/7/vibe-engineering/), puts planning near the top of his list: "Sitting down to hack something together goes much better if you start with a high level plan." His broader point is that "AI tools amplify existing expertise," which is the same thing I keep coming back to. The model does not replace the curiosity. It rewards it.
+
+## Guardrails you enforce, not guardrails you ask for
+
+Good engineers do not treat an LLM as a feature vending machine, where you add a feature, move on, come back a week later, and add another one. They look at how they can use the model to build deterministic guardrails so that every future use of the model produces better, more consistent code.
+
+The key word there is deterministic. You do not write a prompt and hope a non-deterministic prediction engine follows your rules. You make sure it follows them because you enforce them. Linting, static analysis, deterministic scripts, unit tests, integration tests, end-to-end tests. If a rule matters, something other than the model should be checking it.
+
+This lines up closely with what Birgitta Böckeler has been writing about as [harness engineering](https://martinfowler.com/articles/harness-engineering.html) on Martin Fowler's site: guides that steer the agent up front, and sensors that check its output after the fact. Willison makes the same point from the testing side: "If your project has a robust, comprehensive and stable test suite agentic coding tools can _fly_ with it." Where I would push a little further than some of the prompt-engineering crowd is that I think the instructions in your context files are the weakest form of guardrail. They help. They are not a substitute for a check that fails the build.
+
+## Think beyond the happy path
+
+Good engineers check that the happy path works, and then they spend most of their energy on everything around it. What are the failure cases? How do we handle them? How do errors propagate? What does logging and tracing look like when this breaks at 2am? They think about how their feature actually lives inside the broader ecosystem, and they add more guardrails to protect it.
+
+None of that is about AI, but it is exactly where AI-generated code tends to fall down. Addy Osmani calls this [the 70% problem](https://newsletter.pragmaticengineer.com/p/how-ai-will-change-software-engineering): models get you most of the way to a working thing very quickly, and the last stretch is edge cases, security, performance, and integration with the existing system. That last stretch is where engineers who think past the happy path earn their keep. It is also why I think these traits produce good, consistent code regardless of who or what typed it.
+
+## Multitasking and context switching
+
+This is the one that is genuinely new, and I think it is going to become one of the most important skills an engineer has. Nobody is really taught how to do it, and nobody really knows the best way to do it yet. Some people are naturally good at it. Some people struggle with it a lot and need a single task they can focus on for a couple of days before moving on to the next. Others can pivot between ten repos with ten different tasks and get all of them working correctly.
+
+People do it in different ways. Some keep everything in their head. Some lean on labeling and tracking. But I think it comes down to one thing: how fast can you context switch? How fast can you look at the output in one terminal, understand what the model produced and why, kick it back off, then jump into another terminal and figure out what you need to ask for next? And can you do that while keeping the same quality and consistency? Then, how far can you scale that?
+
+Willison has noticed the same shift. He writes that he is "increasingly hearing from experienced, credible software engineers who are running multiple copies of agents at once, tackling several problems in parallel."
+
+This is also where I disagree most with a lot of conventional wisdom. Paul Graham's [Maker's Schedule, Manager's Schedule](https://www.paulgraham.com/makersschedule.html) argued that makers need long, uninterrupted blocks of time, and interruption research like Gloria Mark's at UC Irvine has been cited for years as evidence that context switching is expensive. I do not think either of those is wrong. Deep focus still matters for the hard thinking. But the job has shifted. When a model is doing the typing, the engineer spends more of their time reviewing, steering, and deciding, and those are exactly the moments where the ability to switch cleanly between threads of work becomes leverage instead of a tax. The engineers who can do that well are going to get a lot more done than the ones who cannot.
+
+## Know the tool, including its limits
+
+Good engineers understand that AI is a tool. It is not perfect. It is non-deterministic. At the end of the day it is a prediction engine. The people who internalize that understand what it is capable of, where its limits are, where to route around it, and where they can lean on it almost completely. That is really just "know your ecosystem" again. The ecosystem now includes the models.
+
+The way I like to frame it: nobody writes assembly anymore. We write in higher-level languages that compile down to it. I think AI is the natural next step in that progression. Instead of writing a higher-level language and syntax, you are writing prose, and that prose results in code that gets compiled down like everything else. Prose just happens to be faster to write, because you can describe what you want the system to do instead of how it should do it.
+
+Not everyone buys that framing, and the best counterargument is old. In 1978, Edsger Dijkstra wrote [On the foolishness of "natural language programming"](https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD667.html), arguing that the precision of formal notation is the point, not an obstacle, and that dropping it for natural language would make programming harder, not easier. I think he was right about the ambiguity of prose, and that is exactly why the guardrails section above matters. A compiler is deterministic. A model is not. So the analogy holds for what we write, but not for how much we can trust the output. That gap is the engineer's job to close.
+
+## Depth on demand
+
+You might notice that most of what I have listed so far has nothing to do with being good at writing code. To be clear, a good engineer still needs to be able to write and read code, and to understand the technical depth underneath it: the implications of a given runtime, the trade-offs between languages, and so on.
+
+But I think anyone can learn those skills. The engineers who will be most impactful are the ones willing to go beyond the surface level, because that is what lets them give the model specific guidance. Do we need Kubernetes right now or not? Do you know what Kubernetes is and why we would use it? Node or the JVM? TypeScript, Java, or Rust? What are the trade-offs? Can you research that and understand it quickly?
+
+I think of this as a discoverability skill. Good engineers may know nothing about an ecosystem, but they learn it fast and apply it back to the problem in front of them.
+
+Kent Beck put a sharper edge on this in his post [90% of My Skills Are Now Worth $0](https://newsletter.kentbeck.com/p/90-of-my-skills-are-now-worth-0), after trying ChatGPT for the first time: "The value of 90% of my skills just dropped to $0. The leverage for the remaining 10% went up 1000x." I mostly agree, with one adjustment. I do not think the 90% is worthless. You still need enough of it to know when the model is wrong. What changes is that you no longer need to have all of it memorized in advance, as long as you can go deep quickly when it matters.
+
+## Look out for the team
+
+The extra mile, for me, is engineers who look out for other people. A lot of engineers focus on their own project and their own tasks. The ones who stand out pay attention in standups and planning, know what other people are working on, stay plugged in, and jump in to help solve a problem. They do not play the blame game.
+
+That is more of a personality trait than a skill, but the people who have it are excellent. It also has a long history. Gerald Weinberg described [egoless programming](https://en.wikipedia.org/wiki/Egoless_programming) back in 1971 in *The Psychology of Computer Programming*: treat code as something the team owns rather than an extension of yourself, so criticism is about the work and not about you. AI does not change this one at all, and if anything, a team where everyone is heads-down with their own agents needs it more.
+
+## Strong opinions, loosely held
+
+The last trait is one I picked up heavily at Intuit and Credit Karma: strong opinions, loosely held. Having a strong direction and a clear idea of what you want to do is great. But you have to be able to let go of that conviction when something better comes along.
+
+A lot of engineers come up with a solution, decide it is the best solution ever, and are not willing to hear one that runs counter to it. Sometimes they just go implement their own version and ignore what someone else brought up. Good engineers have their own opinions and their own way of solving the problem, and they still change direction when presented with the facts.
+
+The phrase traces back to Paul Saffo, a technology forecaster, who described it as ["strong opinions, weakly held"](https://web.archive.org/web/2020/https://www.saffo.com/02008/07/26/strong-opinions-weakly-held/): form a tentative conclusion quickly, then actively try to tear it apart. It has its critics. Cedric Chin at Commoncog argues it [does not work that well](https://commoncog.com/strong-opinions-weakly-held-is-bad/) in practice, because people use it to justify defending bad positions loudly, and because "it is quite difficult for the human mind to vacillate between one strong opinion to another." His alternative is to state your confidence as a probability and ask how much you would bet on it. I think that critique is fair about how the phrase gets abused. But the failure mode he describes is people holding opinions strongly and loudly, not loosely. The "loosely held" half is the part that matters, and it is the part I look for.
+
+## It is really just problem solving
+
+There are plenty of other traits that make engineers good. These are the ones that are top of mind for me. And honestly, most of them are not specific to software at all. They are what makes someone a good problem solver. Curiosity, understanding the system you are working in, thinking about how things fail, learning quickly, helping the people around you, and being willing to change your mind. You can take these and apply them to almost any area or career trajectory, and if you are able to do these things, you will probably be successful.
