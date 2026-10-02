@@ -19,24 +19,6 @@ export default function HomePage() {
           {/* Main Content */}
           <main className="py-12 lg:py-20">
             <div className="max-w-xl">
-              {/* About Section */}
-              <section className="mb-16">
-                <p className="text-foreground leading-relaxed">
-                  I am Derek, a software engineering leader. People are at the
-                  center of everything I do. The best software comes from teams
-                  that actually want to be there and trust each other.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-4">
-                  I also never stopped building. New programming languages,
-                  paradigms, tooling, whatever. If it moves the craft forward I
-                  am probably already experimenting with it.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mt-4">
-                  Here I write about what I am building, learning, and thinking
-                  through.
-                </p>
-              </section>
-
               {/* Writing Section */}
               <section className="mb-16">
                 <h2 className="text-xs uppercase tracking-wider text-muted-foreground mb-6">
