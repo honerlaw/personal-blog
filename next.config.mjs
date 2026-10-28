@@ -13,6 +13,11 @@ const nextConfig = {
         destination: "/posts",
         permanent: false,
       },
+      {
+        source: "/posts/ai-team-process",
+        destination: "/posts",
+        permanent: false,
+      },
     ]
   },
 }

@@ -19,7 +19,8 @@ export function Sidebar() {
           </div>
           <h1 className="text-lg font-medium text-foreground">Derek Honerlaw</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Evolving through experiences.
+            Engineering Leader | AI, Platform & Infrastructure | Building
+            High-Performing Teams That Ship
           </p>
           <div className="mt-4">
             <SocialLinks />
