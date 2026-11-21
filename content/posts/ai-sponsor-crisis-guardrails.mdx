@@ -1,0 +1,82 @@
+---
+title: "Building an AI sponsor that knows when not to reach for a hotline"
+date: "2026-11-20"
+excerpt: "How the AI chat in SoberJourney decides when to point someone at a crisis line, and how the safety work that came later was built around that decision."
+tags: ["AI", "LLM", "SoberJourney", "Safety"]
+published: false
+---
+
+[SoberJourney](https://soberjourney.app) is an app I built to help people track their recovery. It has journeys, check-ins, a journal, and an AI chat called the Sponsor that you can talk to when you need support.
+
+This post is about one product question in that chat: when should the Sponsor stop being a sponsor and point someone at a crisis line?
+
+## Two ways to get it wrong
+
+The system prompt originally told the model not to recommend hotlines unless the user explicitly said they were in crisis. A goodbye message is not an explicit statement of crisis. Neither is someone saying they took too many pills. Under that rule, implied danger got no resources at all.
+
+The opposite mistake is to send people to a crisis line whenever they talk about wanting to drink or use, or about a relapse. Cravings are a normal part of recovery, and so is talking about a relapse. Someone who says they really want a drink right now needs a sponsor at that moment, not a hotline number.
+
+So the rule became: offer crisis resources, but do not make them easy to trigger. Ordinary recovery struggles get sponsor support. Genuine danger gets resources.
+
+## Where the line is
+
+On the ordinary side: cravings and urges, wanting to drink or use right now, having relapsed, and general distress. Check-ins record urge and mood levels, and a high urge or a low mood on a check-in is not a crisis by itself either. For all of these, the Sponsor stays a sponsor. It helps with a coping step, encourages reaching out to someone they trust, and reminds them of the progress they have made.
+
+On the danger side, stated or clearly implied:
+
+- suicidal thoughts or not wanting to be alive
+- self-harm
+- intent to harm someone else
+- a possible overdose, including using again after time sober, when tolerance is lower
+- severe withdrawal, like seizures, hallucinations, or confusion, or another medical emergency
+- immediate danger
+
+Danger takes precedence. A message that mentions a craving or a relapse and also shows a danger sign is treated as danger, so someone who says they relapsed and do not want to be here anymore does not fall through the craving carve-out.
+
+Different situations also get different numbers. In the US, the Sponsor points to 988 for suicidal thoughts and self-harm, and to 911 for overdose, severe withdrawal, violence, or immediate danger. Outside the US, it points to the local emergency number or crisis line. When it does point to resources and substance use is part of the situation, or the person asks about treatment, it can also mention the SAMHSA National Helpline (1-800-662-4357). That is a treatment line, not an emergency line.
+
+When the Sponsor does surface resources, it stays warm and brief and keeps supporting the person.
+
+## When the model refuses to answer
+
+Model providers run their own safety filters, and a safety block often follows a message about self-harm or danger.
+
+So blocked replies are handled on purpose. When a reply is blocked for harmful content, the user gets a fixed, supportive fallback that invites them to say more and includes a conditional line pointing to 988 or 911 in the US, or the local emergency number elsewhere. Blocks for unrelated reasons, like recitation or personal data, get a neutral reply asking them to try saying it a different way. If a block comes back with a reason code the server does not recognize, it is treated as a safety block, so an unrecognized reason code gets the reply with the crisis line.
+
+## Saving the message first
+
+The user's message is also saved before the model is called, and it is kept if generation fails. Before that change, an outage at the model provider meant losing what the person had typed.
+
+## Keeping it a sponsor
+
+Later on, I saw the Sponsor answer a request for a hello-world Python script with a working one. That started a round of abuse hardening: off-topic use, prompt injection, and volume.
+
+The scope rules keep anything recovery-adjacent in scope on purpose. Reciting the Serenity Prayer, wording an amends letter or an apology, questions about meetings, journaling, withdrawal or medication, and questions about the app all stay in. Unrelated tasks like code, homework, translations, or trivia get a brief, warm decline.
+
+The prompt also sets an order of priority. Struggle and crisis guidance come before the scope rules, so a message that mixes an off-topic request with distress gets a response to the distress. Safety questions are always answered. User messages cannot change the Sponsor's role, the instructions stay confidential, and user-written text like journey names is treated as data, not as instructions.
+
+## The classifier that was not built
+
+One option was a separate model call that screens every message as on-topic or off-topic before the Sponsor answers. That option was rejected for three reasons. It doubles the latency and cost of every turn. A classifier built on a language model is itself open to prompt injection. And a false "off-topic" verdict on a crisis disclosure would block the reply that carries the crisis resources.
+
+Instead, the hardening added two deterministic backstops.
+
+The first is a guard on the reply. If a reply contains a fenced code block, it is replaced with a short, warm redirect back to the person. The exception: if the text around the code mentions a crisis line or an emergency number, that text is kept and only the code is removed. The redirect is worded warmly on purpose, because a misfire could replace a supportive reply. It also stays in the conversation history, so any distress in the original message keeps its context for the next turn.
+
+The second is a per-user rate limit on chat messages. It is best-effort: it counts inside the running server, so it is not a hard guarantee. The real cost ceiling sits outside the app: the model provider key has its own spend limit.
+
+## Pinning the crisis section
+
+The hardening added a scope section to the system prompt, ahead of the crisis section. The crisis section came through that change unchanged, so a test now pins the exact text of that section by its hash.
+
+That test has a limit. A string test proves the wording is in the prompt. It does not prove the model follows it. Behavior needs checks against the live model with cases like these:
+
+- someone saying they really want a drink right now should get support and no hotline
+- someone saying they relapsed and do not want to be here anymore should get 988
+- someone saying they took too many pills should get 911
+
+The model is now a configuration setting rather than code, and fallback models get the same system prompt, crisis section included. Because the check is against the live model, a model change is a reason to run these cases again.
+
+## Where it ends up
+
+The safety work that came later was built around the crisis threshold: the crisis section is pinned unchanged by a test, crisis guidance takes precedence over the scope rules, and the reply guard keeps text that mentions a crisis line.
