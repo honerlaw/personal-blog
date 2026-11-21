@@ -12,6 +12,8 @@
 - [rechecked — clean] approach: fold-audit confirmed items 1–6 addressed; two low new notes (writer-facing parentheticals; criterion 6 wording, already fixed by the whole-proposal fold)
 - [reviewed — folded] whole-proposal: grep gaps — curly apostrophes, "/min" false match, no digit-string or HTML regex, scratchpad claim list not committed — folded into criteria 2–6 (tier: reviewer — not provably small; parallel wave)
 - [rechecked — clean] whole-proposal: fold-audit confirmed items 1–5 addressed; low caveats: run greps on the body only and with LC_ALL=en_US.UTF-8
+- [reviewed — revise] completion verification: Verifier met 1, 3–7; criterion 2 unsure on five sourcing gaps (URL, provider-filter overstatement, "brake on floods", "several places", guard wording) → Phase 2.5 (tier: reviewer floor — Verifier)
+- [reviewed — clean] new-plan acceptance: replan (criteria unchanged; fix the five gaps; re-verify) accepted; Skeptic noted only low items (keep the guard wording free of examples) (tier: reviewer floor)
 - note: the run was started by a forked agent that could not dispatch reviewers; the main thread took over the gates. The fork wrote the draft post ahead of review; Phase 2 re-checks it against the final criteria.
 
 ## Work notes
@@ -40,3 +42,5 @@ Paths relative to /Users/derekhonerlaw/Development/SoberJourney. K = .minerva/kn
 - Crisis section pinned by sha256 in a test — scope-guard entry "Prompt" bullet ("a test pins its sha256")
 - String tests prove wording only; live checks with the three example cases — crisis-guidance.md Implications (first bullet)
 - Model is configuration (OPENROUTER_MODEL); fallback models get the same system prompt — openrouter entry:21 and Implications; README.md (Server environment)
+- Replan 2026-11-20 applied (replan.md): link now https://soberjourney.app (README.md:5); provider-filter sentence narrowed to fallback.mts:10 ("a safety block often follows a message about self-harm or danger"); "brake on floods" dropped; "several places" replaced by the scope section added ahead of the crisis section (scope-guard entry, "Prompt" bullet); guard exception now "mentions a crisis line or an emergency number" (replyGuard.mts:10-12, :59-69), no marker list.
+- Also applied from the provisional code review (all serve criterion 2 / no invented copy): excerpt no longer ranks the work ("hardest question"); "the question that needed the most care" and "took more work than I expected" removed; classifier paragraph lists the three recorded reasons without ranking them (scope-guard entry, Finding); SAMHSA line now "the prompt never presents it as one"; unknown-block sentence limited to an unrecognized reason code (openrouter entry:34-35); closing list restructured. Criteria 3–6 greps rerun: clean.
