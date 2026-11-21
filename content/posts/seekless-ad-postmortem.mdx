@@ -3,10 +3,12 @@ title: "I spent $614 on video ads and got zero sign-ups"
 date: "2026-11-20"
 excerpt: "Short-video ads for Seekless bought 221,642 impressions, 1,322 clicks and no sign-ups before I stopped them. Search ads on a free tool got people to use it. Here is what happened and what I would change."
 tags: ["Seekless", "Marketing", "AI", "Startups"]
-published: false
+published: true
 ---
 
 [Seekless](https://www.seekless.ai) is a job search tool I have been building this year. It reads company career pages directly, lets you search them in plain language, and has a few tools on top: a free résumé checker, résumé tailoring for a specific job, and interview practice.
+
+I built it out of my own job search. I was looking for specific jobs and could not find them, so I built a crawler that queries company websites directly. Then I found myself using Claude or ChatGPT to tailor each résumé, so I built tailoring into the same system. After that I wanted to track my applications, and once I was interviewing, I wanted to practice in a setting closer to the real thing. Each piece came from something I wanted while going through the job search myself, or while helping other people through theirs.
 
 In October I ran a paid video campaign to get people to remember it. I planned four weeks and $1,500. I stopped the ads after about two weeks, having spent $614.75 on short video ads across YouTube Shorts, TikTok, Instagram and Reddit. Those ads were shown 221,642 times and clicked 1,322 times. They produced 3 engaged visits, and no sign-ups came from sessions that started on an ad.
 
@@ -36,6 +38,8 @@ B beat A on every downstream measure where the two were compared. On YouTube, B 
 
 None of that turned into use. After the first week the four platforms had spent $416.82 for 163,758 impressions, and the result was 2 engaged visits and 0 sign-ups. That is about $208 for each visit where someone actually did something on the site.
 
+I was extremely disappointed. I really thought the campaign would get more engagement than that. It did make the next step easier, though: it pushed me to pivot and figure out what would actually get people to engage with the app.
+
 Meanwhile I had started a small Google Search campaign on October 22, aimed at people looking for job sites or a résumé tool. From October 22 to 26 it spent $89.56 and produced 27 finished résumé checks, about $3.32 each. I had also restarted the ChatGPT ads on October 22, at $25 a day outside the video budget.
 
 On October 26 I stopped TikTok, Instagram, Reddit and ChatGPT. By then ChatGPT had spent $96.51 for 40 clicks and no engaged visits. I kept YouTube running with video B only, moved the main focus to Search, and made two more YouTube videos built on what B did well: C pointed at the résumé checker, and D at résumé tailoring.
@@ -59,11 +63,15 @@ Sign-ups did jump later: 44 in the week of November 2 and 198 the week after. Th
 
 ## What Search showed
 
+The biggest lesson for me was that Seekless depends on people who already intend to do something. Someone browsing a feed who sees a job search platform is very unlikely to engage, or to come back later. Someone searching for a job, for AI interview practice, for résumé tailoring or for a résumé check is exponentially more likely to use it.
+
 When the résumé checker got its own Search campaign, about 43% of the measurable sessions from its ads in the first days (November 13 to 17) ended with a finished check.
 
 Search was not a clean win either, though. A finished check is not a sign-up, and only 2 accounts came from those ads in the same days. Counting all of the first Search campaign's spend from October 26 to November 12, a finished check cost about $7.57.
 
 Search ads for interview practice drew a wave of sign-ups on phones. Of the new accounts from November 11 to the morning of November 12, 34 started a practice call, and judging from their first answers, 22 of them pranked the AI interviewer.
+
+I do not think that was funny so much as a lesson. We got a lot of new sign-ups over a few days, but actual engagement with the app stayed about the same. I was paying for people to joke around with the tool and leave. Sign-ups are not as important as engagement.
 
 ## Why the video campaign failed
 
@@ -83,11 +91,14 @@ The plan had decision rules from the start. The two that ended up being applied,
 
 It also ran into friction. The Google Ads API cannot create YouTube video reach campaigns, so YouTube ran as a Demand Gen campaign, which the API does support. Meta would not take a card until the ad account had a country, and that had to be set through the API. ChatGPT ads would not accept a daily budget under $25.
 
+I would definitely do it again. It made it quick to understand the campaigns that were running, adjust them and run experiments. Today I can stop a campaign and create a new one across several platforms in minutes, through Claude.
+
 ## What I would do next time
 
 - **Pick one platform and buy repeated views.** Three or more views per person on one feed, instead of one view each on four.
 - **Land on a page that says what the ad says.** If the message changes, the ads change with it.
 - **Measure from the product, not the analytics tool.** Use attribution and product activity in my own database, not unpaid visitor counts.
 - **Read the Search campaigns before crediting the feeds.** When sign-ups rise while several campaigns are running, check the others first.
+- **Measure engagement, not sign-ups.** A wave of sign-ups that never use the product is money spent on nothing.
 
-For now the paid budget goes to Google Search, on the free résumé checker and interview practice. Those ads reach people while they are already looking.
+For now I have reduced the budget and kept only what engaged users the most: Google Search ads on the free résumé checker and interview practice. Those are the ads that brought people in and kept them coming back, because they reach people while they are already looking.
