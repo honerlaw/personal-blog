@@ -50,7 +50,7 @@ export function ProjectGroups({ groups, headingLevel: Heading = "h3" }: ProjectG
                   href={companyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline decoration-foreground/30 underline-offset-4 transition-colors hover:decoration-foreground"
+                  className="underline decoration-foreground/40 underline-offset-4 transition-colors hover:decoration-foreground"
                 >
                   {group.company}
                   <span aria-hidden="true"> ↗</span>
