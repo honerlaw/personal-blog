@@ -1,7 +1,7 @@
 # Proposal: sober-journey-sponsor-safety-post
 
 **Date**: 2026-11-20
-**Status**: Draft
+**Status**: Shipped (2026-11-20)
 
 ## Goal
 Add one new draft post, `content/posts/ai-sponsor-crisis-guardrails.mdx` (`published: false`), titled "Building an AI sponsor that knows when not to reach for a hotline". It explains how SoberJourney's AI Sponsor chat decides when to offer crisis resources: never for ordinary cravings or relapse talk, always on stated or implied acute danger. It also covers how the later abuse hardening (scope rules, a code-fence guard, a rate limit) was built around that crisis behaviour.
@@ -19,33 +19,18 @@ Sources of truth, in SoberJourney's `.minerva/knowledge/`:
 
 Also `.minerva/work/2026-10-06-sponsor-chat-backend/replan.md`, `.minerva/work/2026-10-10-sponsor-chat-abuse-hardening/proposal.md`, and `packages/server/src/network/rpc/route/conversation/sponsorChat/utils/{fallback,replyGuard}.mts`. Every technical claim must trace to one of these.
 
-Structure (approach B, the decision-led narrative):
-1. Hook: the hardest question was not which model to use. It was when the sponsor should point someone at a crisis line.
-2. Two ways to get it wrong:
-   - The original prompt offered resources only on an explicit crisis statement, so implied danger got nothing.
-   - A trigger-happy fix would answer normal recovery talk (cravings, relapse) with a phone number. This is the owner's recorded position, paraphrased.
-3. Where the line is:
-   - Acute-danger signs versus ordinary recovery.
-   - Danger takes precedence when both appear.
-   - Overdose risk after time sober.
-   - The US mapping: 988, 911, and SAMHSA 1-800-662-4357 as a treatment line, not an emergency line. Outside the US, the local emergency number.
-   - Warm, brief, keep supporting.
-4. When the model refuses:
-   - Harmful-content safety blocks get a fixed supportive fallback with a conditional crisis line. Other blocks get a neutral reply.
-   - An unrecognized or missing provider block code is mapped to the safety category, so it errs toward the crisis-line reply (source: the OpenRouter decision entry, not `fallback.mts`, whose own mapping sends unknown strings to the neutral reply).
-   - The user's message is stored before generation, so nothing typed is lost.
-5. Keeping it a sponsor: the "python script" incident. Recovery-adjacent asks stay in scope, unrelated tasks get a warm decline, struggle takes precedence, and the instruction hierarchy, confidentiality and journey-names-as-data rules are described at a design level.
-6. The classifier I did not build: the pre-generation LLM classifier was rejected because a false "off-topic" on a crisis disclosure would suppress crisis resources. Deterministic backstops replace it:
-   - A code-fence guard that replaces a reply containing fenced code with a warm decline, but keeps the prose when it points to crisis resources; warm because a misfire could hit a supportive reply. No claim that it is absolute, and no mention of what it does not cover.
-   - A per-user rate limit that is best-effort (in-process, so it is not a hard guarantee). No exact numbers and no characterisation the sources do not make.
-   - The OpenRouter key's spend limit as the hard cost ceiling (use the OpenRouter entry's wording, not the stale "Gemini quota" wording in the scope-guard entry).
-7. Pinning what matters, and its limit:
-   - A test pins the crisis section's sha256, so hardening cannot change it by accident.
-   - String tests prove the wording is present, not the behaviour, so live checks with example cases are needed and must be rerun when the model changes.
-   - Fallback models get the same prompt.
-8. Close: what the work comes down to.
+Structure as built (approach B, the decision-led narrative; three replans tightened it to the sources):
+1. Intro: the app, and the one product question — when the Sponsor should point someone at a crisis line.
+2. Two ways to get it wrong: the original prompt offered hotlines only on an explicit crisis statement, so implied danger got nothing; the opposite mistake answers cravings and relapse talk with a hotline. The rule: offer resources, but do not make them easy to trigger.
+3. Where the line is: ordinary recovery (check-in urge and mood included) vs stated or clearly implied danger; danger takes precedence; the US mapping (988; 911), the local emergency number elsewhere, and SAMHSA 1-800-662-4357 nested under "when it does point to resources" as a treatment line, not an emergency line.
+4. When the model refuses: fixed supportive fallback with a conditional crisis line for harmful-content blocks, neutral reply for other blocks, unrecognized reason codes treated as safety blocks.
+5. Saving the message first: the user's message is stored before generation and kept on failure.
+6. Keeping it a sponsor: the hello-world Python incident; generous recovery-adjacent scope; crisis guidance before scope rules; role, confidentiality and data-not-instructions rules at design level.
+7. The classifier that was not built: three recorded reasons; two deterministic backstops — the fenced-code guard that keeps text mentioning a crisis line, and a best-effort per-user rate limit, with the provider key's spend limit as the cost ceiling.
+8. Pinning the crisis section: a sha256 test pins its text; string tests do not prove behaviour, so live-model cases are listed, and a model change is a reason to run them again.
+9. Where it ends up: the three sourced protections built around the crisis threshold. No absolute safety claims; the rate limit is not claimed to protect crisis replies.
 
-Keep sections 4 to 7 short and subordinate to the threshold decision so the post stays one readable story.
+Sections 4 to 8 stay short and subordinate to the threshold decision so the post stays one readable story.
 
 Safety and writing rules:
 - Crisis numbers match the source exactly.
