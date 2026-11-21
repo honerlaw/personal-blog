@@ -1,7 +1,7 @@
 # Proposal: homepage-onerlaw-llc
 
 **Date**: 2026-11-20
-**Status**: Draft
+**Status**: Shipped (2026-11-20)
 
 ## Goal
 Add a short line to the personal blog's homepage (`src/app/page.tsx`) that says Derek owns and runs onerlaw LLC, which ships several projects today as a side business.
@@ -10,7 +10,7 @@ Add a short line to the personal blog's homepage (`src/app/page.tsx`) that says 
 The owner asked for it: "add somewhere on the homepage that I own and run onerlaw LLC which ships several projects today as a side job / side hobby / etc". The homepage already lists projects (Seekless, SoberJourney) but says nothing about the company behind the side work. The spelling "onerlaw" is the owner's and matches the existing GitHub org in `content/projects/seekless.mdx` (`github.com/onerlaw/seekless`), so it is not a typo for "Honerlaw".
 
 ## Approach
-Add one muted intro paragraph at the top of the homepage's existing **Projects** section, between the `Projects` `<h2>` and the project card list:
+Shipped: one muted intro paragraph at the top of the homepage's existing **Projects** section, between the `Projects` `<h2>` and the project card list in `src/app/page.tsx`:
 
 ```tsx
 <p className="text-sm text-muted-foreground leading-relaxed mb-6">
@@ -39,4 +39,5 @@ Criteria: (1) on the homepage, as asked; (2) does not undo the owner's recent de
 - `pnpm build` (`next build`) succeeds in the worktree after the change, with dependencies installed via `pnpm install`. If `main` itself fails to build, that failure is the baseline and not a regression; the criterion is then that the change adds no new build or type error.
 
 ## Open Questions
-- Should "onerlaw LLC" link somewhere (a company site or the `github.com/onerlaw` org)? Deferred: the owner gave no URL, so the line ships as plain text. The final report flags this.
+- Should "onerlaw LLC" link somewhere (a company site or the `github.com/onerlaw` org)? Deferred: the owner gave no URL, so the line ships as plain text.
+- Verification note: `pnpm build` passes; `tsc --noEmit` shows two type errors that already exist on main (see `.minerva/knowledge/2026-11-20-reference-next-build-skips-typecheck.md`).
