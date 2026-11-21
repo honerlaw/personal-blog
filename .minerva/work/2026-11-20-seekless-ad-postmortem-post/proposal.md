@@ -10,7 +10,7 @@ Add one new draft post to the personal blog (`content/posts/seekless-ad-postmort
 The owner picked this from a list of article ideas (idea #1, the "spotlight" pick). Founders rarely publish real failed-campaign numbers; the Seekless repo holds a complete dated record (plan, decisions with the owner's reasons, check-in logs with figures and sources, a close-out with lessons), so the post can be fully grounded rather than invented. It also fits the blog's existing AI/engineering themes.
 
 ## Approach
-Source of truth: `~/Development/seekless/marketing/campaigns/2026-10-brand-video/{plan,decisions,log}.md` and `2026-10-search/{plan,log,decisions}.md`. Every figure in the post must trace to one of these files.
+Source of truth: the Seekless repo's `marketing/campaigns/2026-10-brand-video/{plan,decisions,log}.md` and `2026-10-search/{plan,log,decisions}.md`. Every figure in the post must trace to one of these files.
 
 Structure (approach B, see candidates below): postmortem-led narrative with one section on the agent-run process.
 1. Hook: the headline result ($614.75, 221,642 impressions, 1,322 clicks, 3 engaged visits, 0 sign-ups).
@@ -31,7 +31,7 @@ Writing rules: no contractions (memory feedback); no direct chat quotes from the
 
 ## Success criteria
 1. `content/posts/seekless-ad-postmortem.mdx` exists with frontmatter keys title, date ("2026-11-20"), excerpt, tags, and `published: false`.
-2. Every dollar amount, count and percentage in the post body is listed in the work unit's `scratchpad.md` (committed under `.minerva/work/<unit>/`) with the source file and line it comes from; the only computed figures allowed are simple divisions or sums of listed figures, shown with their inputs. A Verifier can check each listed line with grep.
+2. Every factual claim in the post body — figures, events, decisions, who did what, what a platform or tool can do — traces to a source line, and every dollar amount, count and percentage is listed in the work unit's `scratchpad.md` (committed under `.minerva/work/<unit>/`) with the source file and line it comes from; the only computed figures allowed are simple divisions or sums of listed figures, shown with their inputs. A Verifier can check each listed line with grep. The author's own first-person narration (headings, transitions, framing) is allowed only where it asserts no fact, experience, ranking or verdict the records do not contain. (Tightened in replan 2: the earlier text covered figures only.)
 3. No contractions: `grep -niE "n['’]t\b|\b[a-z]+['’](re|ve|ll|m|d)\b|\b(it|that|there|what|here|let|he|she|who|where|how)['’]s\b"` on the post returns nothing, and a human read of the body finds none (possessives are fine).
 4. No markdown tables and no raw HTML: `grep -nE '^\s*\|' ` and `grep -nE '<[a-zA-Z/!]'` on the post both return nothing.
 5. No platform account, campaign, ad, criterion or request IDs: `grep -nE '[0-9]{6,}|cmpn_|adgrp_|t3_|[A-Za-z0-9_-]{20,}'` on the post body (below the frontmatter) returns nothing.
