@@ -1,7 +1,7 @@
 # Proposal: onerlaw-company-link
 
 **Date**: 2026-11-20
-**Status**: Draft
+**Status**: Shipped (2026-11-20)
 
 ## Goal
 Make "Onerlaw LLC" in the Projects section link out to the company site, https://www.onerlaw.com, on both the homepage and `/projects`.
@@ -15,9 +15,10 @@ The owner asked: "Onerlaw LLC should also link out to www.onerlaw.com". The rede
   - the `<a>` sits inside the existing `h2`/`h3`, so the heading outline is unchanged;
   - `target="_blank"` and `rel="noopener noreferrer"`, matching the project cards' external links;
   - the text is "Onerlaw LLC" followed by a "↗" glyph that is hidden from screen readers;
-  - a faint underline is always shown so the link is discoverable on touch devices, and it darkens on hover.
+  - a faint underline (`decoration-foreground/40`, matching article links) is always shown so the link is discoverable on touch devices, and it darkens on hover.
 - Groups with no URL, including "Run by me directly", render as plain text, as now.
 - The intro sentence is unchanged.
+- From review: the project and repo cards' existing "↗" glyphs are now wrapped in `aria-hidden` spans too, so screen readers announce only the link text.
 
 ### Candidate approaches considered
 - **A1. Link the group heading** (chosen). It is the most visible mention, reuses the site's external-link pattern, and works for any company that is given a URL.
