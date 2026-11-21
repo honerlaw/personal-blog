@@ -20,7 +20,7 @@ So the rule became: offer crisis resources, but do not make them easy to trigger
 
 ## Where the line is
 
-On the ordinary side: cravings and urges, wanting to drink or use right now, having relapsed, and general distress. A high urge or a low mood on a check-in is not a crisis by itself either. For all of these, the Sponsor stays a sponsor. It helps with a coping step, encourages reaching out to someone they trust, and reminds them of the progress they have made.
+On the ordinary side: cravings and urges, wanting to drink or use right now, having relapsed, and general distress. Check-ins record urge and mood levels, and a high urge or a low mood on a check-in is not a crisis by itself either. For all of these, the Sponsor stays a sponsor. It helps with a coping step, encourages reaching out to someone they trust, and reminds them of the progress they have made.
 
 On the danger side, stated or clearly implied:
 
@@ -39,9 +39,11 @@ When the Sponsor does surface resources, it stays warm and brief and keeps suppo
 
 ## When the model refuses to answer
 
-Model providers run their own safety filters, and a safety block often follows a message about self-harm or danger. Those are the messages where a blocked reply matters most.
+Model providers run their own safety filters, and a safety block often follows a message about self-harm or danger. Those are the messages where a blocked reply is most likely to matter.
 
-So blocked replies are handled on purpose. When a reply is blocked for harmful content, the user gets a fixed, supportive fallback that invites them to say more and includes a conditional line pointing to 988 or 911 in the US, or the local emergency number elsewhere. Blocks for unrelated reasons, like recitation or personal data, get a neutral reply asking them to try saying it a different way. If a block comes back with a reason code the server does not recognize, it is treated as a safety block, so an unrecognized block reason gets the reply with the crisis line.
+So blocked replies are handled on purpose. When a reply is blocked for harmful content, the user gets a fixed, supportive fallback that invites them to say more and includes a conditional line pointing to 988 or 911 in the US, or the local emergency number elsewhere. Blocks for unrelated reasons, like recitation or personal data, get a neutral reply asking them to try saying it a different way. If a block comes back with a reason code the server does not recognize, it is treated as a safety block, so an unrecognized reason code gets the reply with the crisis line.
+
+## Saving the message first
 
 The user's message is also saved before the model is called, and it is kept if generation fails. Before that change, an outage at the model provider meant losing what the person had typed.
 
@@ -53,9 +55,9 @@ The scope rules keep anything recovery-adjacent in scope on purpose. Reciting th
 
 The prompt also sets an order of priority. Struggle and crisis guidance come before the scope rules, so a message that mixes an off-topic request with distress gets a response to the distress. Safety questions are always answered. User messages cannot change the Sponsor's role, the instructions stay confidential, and user-written text like journey names is treated as data, not as instructions.
 
-## The classifier I did not build
+## The classifier that was not built
 
-One option was a separate model call that screens every message as on-topic or off-topic before the Sponsor answers. That option was rejected for three reasons. It doubles the latency and cost of every turn. A classifier built on a language model can be prompt-injected just like the thing it is guarding. And a false "off-topic" verdict on a crisis disclosure would block the reply that carries the crisis resources.
+One option was a separate model call that screens every message as on-topic or off-topic before the Sponsor answers. That option was rejected for three reasons. It doubles the latency and cost of every turn. A classifier built on a language model is itself open to prompt injection. And a false "off-topic" verdict on a crisis disclosure would block the reply that carries the crisis resources.
 
 Instead, the hardening added two deterministic backstops.
 
@@ -65,7 +67,7 @@ The second is a per-user rate limit on chat messages. It is best-effort: it coun
 
 ## Pinning the crisis section
 
-The hardening added a scope section to the system prompt, ahead of the crisis section. The crisis section had to come through that change unchanged, so a test now pins the exact text of that section by its hash. Any later change to it has to be deliberate.
+The hardening added a scope section to the system prompt, ahead of the crisis section. The crisis section had to come through that change unchanged, so a test now pins the exact text of that section by its hash.
 
 That test has a limit. A string test proves the wording is in the prompt. It does not prove the model follows it. Behavior needs checks against the live model with cases like these:
 
@@ -73,8 +75,8 @@ That test has a limit. A string test proves the wording is in the prompt. It doe
 - someone saying they relapsed and do not want to be here anymore should get 988
 - someone saying they took too many pills should get 911
 
-The model is now a configuration setting rather than code, and fallback models get the same system prompt, crisis section included. A new model still needs the same cases run again.
+The model is now a configuration setting rather than code, and fallback models get the same system prompt, crisis section included. Because the check is against the live model, a model change is a reason to run these cases again.
 
-## What I took away
+## Where it ends up
 
-The safety design in this chat starts from one line: where crisis resources begin, written down precisely enough for a model to follow. The safety work that came later was built around that line: the crisis section is pinned unchanged by a test, crisis guidance takes precedence over the scope rules, and the reply guard keeps text that mentions a crisis line.
+The safety work that came later was built around the crisis threshold: the crisis section is pinned unchanged by a test, crisis guidance takes precedence over the scope rules, and the reply guard keeps text that mentions a crisis line.

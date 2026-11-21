@@ -52,3 +52,19 @@ Success criteria unchanged. Rewrite to the sources:
 Standing facts (not changes): `published: false` hides a post from the listing only (owner's existing draft practice, see 5ea9ba4 → 735a69b), stated in the PR body. The work records in this public repo name the rate-limit numbers and guard markers in their criteria; the SoberJourney repo already states them, so this is accepted.
 
 Accepted with the reviewer's non-blocking notes applied: "fenced" kept (the guard covers fenced code only, and "code block" alone would overstate it); SAMHSA conditions nested under "when it does point to resources"; the "prompt never presents it as one" clause dropped (SAMHSA as a treatment line sourced to the crisis-guidance entry); the closing names only the three sourced protections; a full narrative sweep removed the remaining framing ("the obvious fix", "that sounds reasonable until", "the rule I settled on", "those checks matter more now"); the outage line limited to what the persist-before-generate entry records.
+
+## Replan 2026-11-20 (3) — clarify criterion 2 and close the last gaps
+
+### Original plan
+Replan 2: rewrite to the sources with a full framing sweep; criteria unchanged.
+
+### What changed
+The third Verifier confirmed every replan item resolved and no absolute safety claims, but returned `revise` on criterion 2 for residual items: "those are the messages where a blocked reply matters most" (source: a block "often follows" such a message), "just like the thing it is guarding" (source: "itself injectable"), "any later change to it has to be deliberate" (inference), the closing's "starts from one line", and first-person narration ("I saw", "What I took away", "The classifier I did not build"). The owner is the blog's author, so "I saw" matches "The owner showed…". The code review found no high or medium issues; its low items include the outage paragraph sitting under the refusal heading, "a new model still needs the same cases run again" implying they were run, the unknown-block sentence read as covering every block, check-ins not explained as recording urge and mood, and the stale Goal in proposal.md. Each pass has removed a further layer of framing because criterion 2 never said where the author's narration stops and an unsupported claim starts — a criteria ambiguity.
+
+### New plan
+1. Clarify criterion 2 in proposal.md: "Every technical or factual claim — behaviour, events, decisions, numbers — traces to a cited source. The author's own first-person narration (headings, transitions, framing; the owner is the author) is allowed only where it asserts no fact, experience, ranking, inference or verdict the sources do not contain. No absolute safety claims."
+2. Post fixes: "those are the messages where a blocked reply is most likely to matter"; "a classifier built on a language model is itself open to prompt injection"; drop "any later change to it has to be deliberate"; closing heading "Where it ends up" (neutral) and remove "starts from one line" and the double sense of "line" (use "threshold"); keep "I saw" (owner = author); heading "The classifier that was not built"; move the save-before-generate paragraph under its own short heading; "unrecognized block reason code"; "the same cases need to be run against any new model"; check-ins described as recording urge and mood (crisis-guidance entry: "check-in urge/mood levels").
+3. Update proposal.md's Goal to the current title and remove "could never suppress"; replace absolute local paths in this unit's records with repo-relative ones.
+4. Rerun greps, update the claim list, re-run Verifier and code review.
+
+Accepted. Reviewer notes adopted: the claim-list clause kept in criterion 2 (recorded as a tightening); the rerun on a model change phrased as following from the live-model limit.

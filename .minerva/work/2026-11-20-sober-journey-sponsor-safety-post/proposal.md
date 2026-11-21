@@ -4,7 +4,7 @@
 **Status**: Draft
 
 ## Goal
-Add one new draft post, `content/posts/ai-sponsor-crisis-guardrails.mdx` (`published: false`), titled "Building an AI sponsor that knows when not to call a hotline". It explains how SoberJourney's AI Sponsor chat decides when to offer crisis resources: never for ordinary cravings or relapse talk, always on stated or implied acute danger. It also covers how the later abuse hardening (scope rules, a code-fence guard, a rate limit) was built so it could never suppress that crisis behaviour.
+Add one new draft post, `content/posts/ai-sponsor-crisis-guardrails.mdx` (`published: false`), titled "Building an AI sponsor that knows when not to reach for a hotline". It explains how SoberJourney's AI Sponsor chat decides when to offer crisis resources: never for ordinary cravings or relapse talk, always on stated or implied acute danger. It also covers how the later abuse hardening (scope rules, a code-fence guard, a rate limit) was built around that crisis behaviour.
 
 ## Why
 The owner picked this from a list of article ideas (idea #2). The SoberJourney repo records the decisions with the owner's reasons, the rejected alternatives and the code that implements them, so the post can be fully grounded. Few people write about AI safety in a sensitive consumer product at this level of concrete detail, and the topic fits the blog's AI and engineering themes.
@@ -64,7 +64,7 @@ Safety and writing rules:
 
 ## Success criteria
 1. `content/posts/ai-sponsor-crisis-guardrails.mdx` exists with frontmatter keys title, date ("2026-11-20"), excerpt, tags, and `published: false`.
-2. Every technical claim in the post traces to a cited source file: the work unit's committed `scratchpad.md` lists each claim with its source file (and line where one exists), so a Verifier can check each by grep.
+2. Every technical or factual claim in the post — behaviour, events, decisions, numbers — traces to a cited source: the work unit's committed `scratchpad.md` lists each claim with its source file (and line where one exists), so a Verifier can check each by grep. The author's own first-person narration (headings, transitions, framing; the owner named in the sources is the author) is allowed only where it asserts no fact, experience, ranking, inference or verdict the sources do not contain. No absolute safety claims. (Tightened in replan 3: the earlier text did not bound narration.)
 3. The crisis numbers in the post are exactly 988, 911 and 1-800-662-4357, each used with the meaning the source gives it: `grep -oE '[0-9][0-9-]{2,}'` on the post body lists no number other than these three (in particular not 112 or 999).
 4. No contractions: `grep -niE "n['’]t\b|\b[a-z]+['’](re|ve|ll|m|d)\b|\b(it|that|there|what|here|let|he|she|who|where|how|i)['’]s\b"` on the post returns nothing, and a human read of the body finds none (possessives are fine).
 5. No markdown tables and no raw HTML: `grep -nE '^\s*\|'` and `grep -nE '<[a-zA-Z/!]'` on the post both return nothing.
