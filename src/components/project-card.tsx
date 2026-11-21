@@ -54,7 +54,7 @@ export function ProjectCard({
               {language}
             </span>
           )}
-          <span className="font-medium text-foreground">View on GitHub ↗</span>
+          <span className="font-medium text-foreground">View on GitHub<span aria-hidden="true"> ↗</span></span>
         </span>
       </a>
     );
@@ -84,7 +84,7 @@ export function ProjectCard({
         </span>
       )}
       <span className="mt-auto text-sm font-medium text-foreground group-hover:underline group-hover:underline-offset-4">
-        Visit {domainOf(href)} ↗
+        Visit {domainOf(href)}<span aria-hidden="true"> ↗</span>
       </span>
     </a>
   );
