@@ -63,25 +63,25 @@ When the résumé checker got its own Search campaign, about 43% of the measurab
 
 Search was not a clean win either, though. A finished check is not a sign-up, and only 2 accounts came from those ads in the same days. Counting all of the first Search campaign's spend from October 26 to November 12, a finished check cost about $7.57.
 
-And intent can mean the wrong thing. Search ads for interview practice drew a wave of sign-ups on phones. Of the new accounts from November 11 to the morning of November 12, 34 started a practice call, and judging from their first answers, 22 of them pranked the AI interviewer. Getting people to do something is not the same as getting the right people to do the right thing.
+Search ads for interview practice drew a wave of sign-ups on phones. Of the new accounts from November 11 to the morning of November 12, 34 started a practice call, and judging from their first answers, 22 of them pranked the AI interviewer.
 
 ## Why the video campaign failed
 
 Looking back, the campaign never really tested the idea it was built on.
 
 - **Too thin to build memory.** $60 a day spread across four platforms meant each person saw an ad about once. An awareness campaign usually needs three or more views per person. I bought single views on four platforms instead of repeated views on one.
-- **The ad and the page said different things.** On October 23, a few days in, I changed the home page to lead with "Tailor your résumé. Practice the interview." The ads still carried the campaign message, "one place for the whole job search". Someone who clicked landed on a page making a different promise.
+- **The ad and the page said different things.** On October 23, a few days in, the home page changed to lead with "Tailor your résumé. Practice the interview." The ads still carried the campaign message, "one place for the whole job search". Someone who clicked landed on a page making a different promise.
 - **I could not see the result.** The measure depended on unpaid counts in the analytics tool, and the scraper flooded those counts.
 
 ## How it was run
 
 One part of this did work.
 
-An AI agent ran almost all of the campaign through the ad platforms' APIs. Instagram was the exception: it had to be switched on by hand in Ads Manager. The agent built every campaign paused, dry-ran each Google Ads change before making it, and read the state back after the changes it made. It kept a dated record of every decision with my reasoning attached, and a check-in log with the figures and where each one came from.
+An AI agent ran almost all of the campaign through the ad platforms' APIs. At launch, a safety check blocked some of the agent's switches; I approved them, and switched Instagram on myself in Ads Manager. The agent built every campaign paused, dry-ran each Google Ads change before making it, and read the state back after the changes it made. It kept a dated record of every decision with my reasoning attached, and a check-in log with the figures and where each one came from.
 
 The plan had decision rules from the start. The two that ended up being applied, video D's $40 no-outcome rule and a close-out rule for YouTube, were agreed on October 26. The agent proposed stops either from those rules (video D, and YouTube's close-out rule applied two weeks early) or from the latest figures (the feed platforms). It showed the numbers and asked before pausing anything, and I made every call.
 
-It also ran into the usual friction. The Google Ads API cannot create YouTube video reach campaigns, so YouTube ran as a Demand Gen campaign, which the API does support. Meta would not take a card until the ad account had a country, and that had to be set through the API. ChatGPT ads would not accept a daily budget under $25.
+It also ran into friction. The Google Ads API cannot create YouTube video reach campaigns, so YouTube ran as a Demand Gen campaign, which the API does support. Meta would not take a card until the ad account had a country, and that had to be set through the API. ChatGPT ads would not accept a daily budget under $25.
 
 ## What I would do next time
 
