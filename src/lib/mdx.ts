@@ -30,6 +30,8 @@ export interface ProjectFrontmatter {
   repo?: string;
   featured?: boolean;
   order?: number;
+  /** Company the project is operated under, e.g. "Onerlaw LLC". Absent means run directly by Derek. */
+  company?: string;
 }
 
 export interface Project {
@@ -65,8 +67,11 @@ export function getAllPosts(): Post[] {
       };
     })
     .filter((post) => post.frontmatter.published !== false)
-    .sort((a, b) => 
-      new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
+    .sort(
+      (a, b) =>
+        new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime() ||
+        // Same-day posts: break the tie by slug so the order does not depend on readdir order.
+        a.slug.localeCompare(b.slug)
     );
 
   return posts;
@@ -133,4 +138,49 @@ export function getProjectBySlug(slug: string): Project | null {
     frontmatter: data as ProjectFrontmatter,
     content,
   };
+}
+
+export interface ProjectGroup {
+  /** Company name, or null for projects run directly by Derek. */
+  company: string | null;
+  projects: Project[];
+}
+
+/**
+ * Groups projects by the company they are operated under. Company groups come
+ * first, in order of first appearance; projects with no company come last.
+ */
+export function groupProjects(projects: Project[]): ProjectGroup[] {
+  const groups: ProjectGroup[] = [];
+  const direct: Project[] = [];
+
+  for (const project of projects) {
+    const company = project.frontmatter.company?.trim();
+    if (!company) {
+      direct.push(project);
+      continue;
+    }
+    const group = groups.find((g) => g.company === company);
+    if (group) {
+      group.projects.push(project);
+    } else {
+      groups.push({ company, projects: [project] });
+    }
+  }
+
+  if (direct.length > 0) {
+    groups.push({ company: null, projects: direct });
+  }
+
+  return groups;
+}
+
+export function formatPostDate(date: string): string {
+  return new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    // Frontmatter dates are calendar dates; render them in UTC so they never shift a day.
+    timeZone: "UTC",
+  });
 }
