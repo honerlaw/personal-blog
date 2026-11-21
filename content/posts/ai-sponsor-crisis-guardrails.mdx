@@ -39,7 +39,7 @@ When the Sponsor does surface resources, it stays warm and brief and keeps suppo
 
 ## When the model refuses to answer
 
-Model providers run their own safety filters, and a safety block often follows a message about self-harm or danger. Those are the messages where a blocked reply is most likely to matter.
+Model providers run their own safety filters, and a safety block often follows a message about self-harm or danger.
 
 So blocked replies are handled on purpose. When a reply is blocked for harmful content, the user gets a fixed, supportive fallback that invites them to say more and includes a conditional line pointing to 988 or 911 in the US, or the local emergency number elsewhere. Blocks for unrelated reasons, like recitation or personal data, get a neutral reply asking them to try saying it a different way. If a block comes back with a reason code the server does not recognize, it is treated as a safety block, so an unrecognized reason code gets the reply with the crisis line.
 
@@ -67,7 +67,7 @@ The second is a per-user rate limit on chat messages. It is best-effort: it coun
 
 ## Pinning the crisis section
 
-The hardening added a scope section to the system prompt, ahead of the crisis section. The crisis section had to come through that change unchanged, so a test now pins the exact text of that section by its hash.
+The hardening added a scope section to the system prompt, ahead of the crisis section. The crisis section came through that change unchanged, so a test now pins the exact text of that section by its hash.
 
 That test has a limit. A string test proves the wording is in the prompt. It does not prove the model follows it. Behavior needs checks against the live model with cases like these:
 

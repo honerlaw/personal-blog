@@ -18,6 +18,7 @@
 - [reviewed — clean] new-plan acceptance (2): accepted; non-blocking notes (keep "fenced", nest SAMHSA conditions, draft the closing against three sourced facts, sweep all framing) applied as implementation detail (tier: reviewer floor)
 - [reviewed — revise] completion verification (third): every replan item resolved, no absolute safety claims; criterion 2 not met for residual framing ("matters most", "just like the thing it is guarding", "has to be deliberate", "starts from one line", first-person headings) → Phase 2.5 (tier: reviewer floor — Verifier)
 - [reviewed — clean] new-plan acceptance (3): accepted; criterion 2 judged tightened; notes adopted (keep the claim-list clause in criterion 2; phrase the rerun on a model change as following from the live-model limit) (tier: reviewer floor)
+- [reviewed — revise → fixed in plan] completion verification (fourth): criteria 1, 3–7 met; two residual narration inferences ("most likely to matter", "had to come through") — applied as copy fixes inside replan 3 item 2's scope (sentence dropped; "came through" per K scope-guard entry "byte-identical"); no new plan, since neither changes goal, approach or criteria (tier: reviewer floor — Verifier)
 - note: the run was started by a forked agent that could not dispatch reviewers; the main thread took over the gates. The fork wrote the draft post ahead of review; Phase 2 re-checks it against the final criteria.
 
 ## Work notes
