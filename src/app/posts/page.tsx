@@ -1,49 +1,37 @@
-import { Sidebar } from "@/components/sidebar";
+import type { Metadata } from "next";
 import { PostCard } from "@/components/post-card";
-import { getAllPosts } from "@/lib/mdx";
+import { formatPostDate, getAllPosts } from "@/lib/mdx";
+
+export const metadata: Metadata = {
+  title: "Writing — Derek Honerlaw",
+};
 
 export default function PostsPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="min-h-screen">
-      <div className="max-w-5xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-0 lg:gap-16">
-          {/* Sidebar */}
-          <div className="lg:sticky lg:top-0 lg:h-screen">
-            <Sidebar />
-          </div>
-
-          {/* Main Content */}
-          <main className="py-12 lg:py-20">
-            <div className="max-w-xl">
-              <section>
-                <h2 className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
-                  Writing
-                </h2>
-                <p className="text-muted-foreground text-sm mb-8">
-                  Thoughts on engineering, leadership, and building things that
-                  last.
-                </p>
-                <div className="flex flex-col gap-8">
-                  {posts.map((post) => (
-                    <PostCard
-                      key={post.slug}
-                      title={post.frontmatter.title}
-                      excerpt={post.frontmatter.excerpt}
-                      date={new Date(post.frontmatter.date).toLocaleDateString(
-                        "en-US",
-                        { month: "long", day: "numeric", year: "numeric" }
-                      )}
-                      slug={post.slug}
-                    />
-                  ))}
-                </div>
-              </section>
-            </div>
-          </main>
-        </div>
+    <main className="mx-auto flex max-w-5xl flex-col gap-8 px-5 py-12 md:px-8 md:py-20">
+      <div className="flex flex-col gap-3">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+          Writing
+        </h1>
+        <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+          Thoughts on engineering, leadership, and building things that last.
+        </p>
       </div>
-    </div>
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        {posts.map((post) => (
+          <PostCard
+            key={post.slug}
+            slug={post.slug}
+            title={post.frontmatter.title}
+            excerpt={post.frontmatter.excerpt}
+            date={formatPostDate(post.frontmatter.date)}
+            readingTime={post.readingTime}
+            tags={post.frontmatter.tags}
+          />
+        ))}
+      </div>
+    </main>
   );
 }

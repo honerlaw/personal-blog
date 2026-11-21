@@ -1,8 +1,7 @@
-import { Sidebar } from "@/components/sidebar";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPostBySlug, getAllPosts } from "@/lib/mdx";
+import { formatPostDate, getPostBySlug, getAllPosts } from "@/lib/mdx";
 import { MDXContent } from "@/components/mdx-content";
 
 interface PageProps {
@@ -23,7 +22,7 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   return {
-    title: `${post.frontmatter.title} — Your Name`,
+    title: `${post.frontmatter.title} — Derek Honerlaw`,
     description: post.frontmatter.excerpt,
   };
 }
@@ -36,63 +35,42 @@ export default async function PostPage({ params }: PageProps) {
     notFound();
   }
 
-  const formattedDate = new Date(post.frontmatter.date).toLocaleDateString(
-    "en-US",
-    {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }
-  );
-
   return (
-    <div className="min-h-screen">
-      <div className="max-w-5xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-0 lg:gap-16">
-          {/* Sidebar */}
-          <div className="lg:sticky lg:top-0 lg:h-screen">
-            <Sidebar />
-          </div>
+    <main className="mx-auto max-w-3xl px-5 py-10 md:px-8 md:py-16">
+      <Link
+        href="/posts"
+        className="-ml-1 inline-flex min-h-11 items-center gap-1.5 px-1 text-sm text-muted-foreground transition-colors hover:text-foreground hover:underline hover:underline-offset-4"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+        Back to posts
+      </Link>
 
-          {/* Main Content */}
-          <main className="py-12 lg:py-20">
-            <div className="max-w-xl">
-              <Link
-                href="/posts"
-                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-              >
-                <ArrowLeft className="h-3.5 w-3.5" />
-                Back to posts
-              </Link>
+      <article className="mt-6">
+        <header className="mb-10 flex flex-col gap-4 border-b border-border pb-8">
+          <p className="text-sm text-muted-foreground">
+            <time>{formatPostDate(post.frontmatter.date)}</time>
+            <span aria-hidden="true"> · </span>
+            {post.readingTime}
+          </p>
+          <h1 className="text-3xl font-bold leading-tight tracking-tight text-foreground text-balance md:text-[2.75rem]">
+            {post.frontmatter.title}
+          </h1>
+          {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+            <ul className="flex flex-wrap gap-1.5" aria-label="Tags">
+              {post.frontmatter.tags.map((tag) => (
+                <li
+                  key={tag}
+                  className="rounded-full bg-secondary px-2.5 py-1 text-xs text-secondary-foreground"
+                >
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          )}
+        </header>
 
-              <article>
-                <header className="mb-8">
-                  <time className="text-xs text-muted-foreground/70">
-                    {formattedDate} · {post.readingTime}
-                  </time>
-                  <h1 className="text-2xl font-semibold text-foreground mt-2 text-balance tracking-tight">
-                    {post.frontmatter.title}
-                  </h1>
-                  {post.frontmatter.tags && (
-                    <div className="flex gap-2 mt-3">
-                      {post.frontmatter.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </header>
-
-                <MDXContent content={post.content} />
-              </article>
-            </div>
-          </main>
-        </div>
-      </div>
-    </div>
+        <MDXContent content={post.content} />
+      </article>
+    </main>
   );
 }
