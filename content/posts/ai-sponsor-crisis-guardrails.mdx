@@ -3,10 +3,10 @@ title: "Building an AI sponsor that knows when not to reach for a hotline"
 date: "2026-11-20"
 excerpt: "How the AI chat in SoberJourney decides when to point someone at a crisis line, and how the safety work that came later was built around that decision."
 tags: ["AI", "LLM", "SoberJourney", "Safety"]
-published: false
+published: true
 ---
 
-[SoberJourney](https://soberjourney.app) is an app I built to help people track their recovery. It has journeys, check-ins, a journal, and an AI chat called the Sponsor that you can talk to when you need support.
+[SoberJourney](https://soberjourney.app) is an app I built to help people track their recovery. I built it because someone in my family was going through a sobriety journey, and I wanted a tool that would help them track their improvement and help them when their sponsor could not. It has journeys, check-ins, a journal, and an AI chat called the Sponsor that you can talk to when you need support.
 
 This post is about one product question in that chat: when should the Sponsor stop being a sponsor and point someone at a crisis line?
 
@@ -15,6 +15,8 @@ This post is about one product question in that chat: when should the Sponsor st
 The system prompt originally told the model not to recommend hotlines unless the user explicitly said they were in crisis. A goodbye message is not an explicit statement of crisis. Neither is someone saying they took too many pills. Under that rule, implied danger got no resources at all.
 
 The opposite mistake is to send people to a crisis line whenever they talk about wanting to drink or use, or about a relapse. Cravings are a normal part of recovery, and so is talking about a relapse. Someone who says they really want a drink right now needs a sponsor at that moment, not a hotline number.
+
+Both mistakes matter, and they are connected. If every mention of a craving gets a hotline number, people learn to stop being honest with the Sponsor, and that hides the very danger it needs to catch.
 
 So the rule became: offer crisis resources, but do not make them easy to trigger. Ordinary recovery struggles get sponsor support. Genuine danger gets resources.
 
@@ -55,9 +57,9 @@ The scope rules keep anything recovery-adjacent in scope on purpose. Reciting th
 
 The prompt also sets an order of priority. Struggle and crisis guidance come before the scope rules, so a message that mixes an off-topic request with distress gets a response to the distress. Safety questions are always answered. User messages cannot change the Sponsor's role, the instructions stay confidential, and user-written text like journey names is treated as data, not as instructions.
 
-## The classifier that was not built
+## The classifier I did not build
 
-One option was a separate model call that screens every message as on-topic or off-topic before the Sponsor answers. That option was rejected for three reasons. It doubles the latency and cost of every turn. A classifier built on a language model is itself open to prompt injection. And a false "off-topic" verdict on a crisis disclosure would block the reply that carries the crisis resources.
+One option was a separate model call that screens every message as on-topic or off-topic before the Sponsor answers. I decided against it, for three reasons. It doubles the latency and cost of every turn. A classifier built on a language model is itself open to prompt injection. And a false "off-topic" verdict on a crisis disclosure would block the reply that carries the crisis resources.
 
 Instead, the hardening added two deterministic backstops.
 
@@ -80,3 +82,7 @@ The model is now a configuration setting rather than code, and fallback models g
 ## Where it ends up
 
 The safety work that came later was built around the crisis threshold: the crisis section is pinned unchanged by a test, crisis guidance takes precedence over the scope rules, and the reply guard keeps text that mentions a crisis line.
+
+I built the Sponsor for someone in my family, for the times their sponsor could not be there. What I want it to do in those moments is be a sponsor, and recognize when someone needs more than that.
+
+*If you are struggling, call or text 988 in the US, or your local emergency number.*
