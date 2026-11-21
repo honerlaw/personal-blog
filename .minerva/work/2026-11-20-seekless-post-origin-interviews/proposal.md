@@ -1,7 +1,7 @@
 # Proposal: seekless-post-origin-interviews
 
 **Date**: 2026-11-20
-**Status**: Draft
+**Status**: Shipped (2026-11-20)
 
 ## Goal
 Rephrase the origin paragraph in the published post `content/posts/seekless-ad-postmortem.mdx` so Seekless is described as coming from interviews with friends and coworkers — the problems they had and what they were doing about them — instead of from the author's own job search.
