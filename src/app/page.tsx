@@ -42,9 +42,13 @@ export default function HomePage() {
 
               {/* Projects Section */}
               <section>
-                <h2 className="text-xs uppercase tracking-wider text-muted-foreground mb-6">
+                <h2 className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
                   Projects
                 </h2>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                  On the side, I own and run onerlaw LLC, which ships several
+                  projects today.
+                </p>
                 <div className="flex flex-col gap-8">
                   {projects.map((project) => (
                     <ProjectCard
