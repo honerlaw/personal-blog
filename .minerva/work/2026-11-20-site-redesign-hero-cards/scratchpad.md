@@ -14,6 +14,8 @@
 - [rechecked — clean] approach: fold-audit addressed C1–C3, C5; C4 knowingly declined, not load-bearing
 - [reviewed — folded] whole-proposal (first-wave result kept: approach pick unchanged and its fold did not touch Goal/criteria): folded C1 (list new UI microcopy, disclose dropped "other"), C2 (case-sensitive Onerlaw grep), C3 (mobile class criteria + panel closes on click), C4 (honest post-merge verification + revert path), C5 (broaden uppercase grep), C6 (prose link/blockquote styling), C7 (name tsc baseline) (tier: reviewer — solo denied, judgment evidence; parallel wave)
 - [rechecked — residual folded] whole-proposal: C3 partially addressed — folded residual (w-full sm:w-auto buttons, photo-first criterion); also folded new low concern on hover affordance with neutral primary
+- [reviewed — clean] completion verification: Verifier reproduced C1–C11; noted Geist now actually renders and dates use short months (both within approval) (tier: reviewer floor — Verifier; code review dispatched alongside)
+- [solo] review triage: 11 FIX / 0 SUGGEST / 3 IGNORE / 1 MERGE — every FIX has a writable failure scenario and is absorbable; IGNOREs are pre-existing, already documented, or have no test infra; no item had two defensible dispositions (tier: default-solo row)
 
 ## Work notes
 - Implemented per Approach: SiteHeader (client; mobile panel with aria-expanded/aria-controls, closes on link click) and SiteFooter in root layout; sidebar.tsx, navigation.tsx, src/styles/globals.css deleted; neutral light+dark tokens; PostCard (featured/default), ProjectCard (project/repo variants), ProjectGroups + ProjectsIntro; groupProjects() and formatPostDate() in src/lib/mdx.ts; `company: "Onerlaw LLC"` added to both project MDX files.
@@ -22,3 +24,21 @@
 - Routine choice: the hero uses `flex-col md:flex-row-reverse` (photo first in DOM so it leads on mobile, sits right on desktop) rather than `md:flex-row` + order classes.
 - Post page: dropped the idea of showing the excerpt under the title, since it would likely duplicate the opening paragraph. Article links are always underlined; blockquote border uses the border token.
 - Verification: `pnpm build` passes; `tsc --noEmit` reports 0 errors (baseline 2 removed — the `url || github` hrefs are now guarded); all criteria greps empty; built HTML checked for section order, featured post = newest published, only the "Onerlaw LLC" group, titles "— Derek Honerlaw". Playwright screenshots (390px + 1280px, light + dark) look like the approved B preview; the mobile menu toggles aria-expanded false→true and the panel unmounts after a link click.
+
+## Review triage 2026-11-20
+Code review (local-diff mode, fresh-context subagent) + inline minerva audit (spec fidelity OK; knowledge: old Onerlaw placement entry needs superseding at promote).
+- F1 [medium] mdx-content hover:prose-a variant order → FIX
+- F2 [low] mobile menu stays open on non-panel navigation / no Escape → FIX
+- F3 [low] aria-controls points at unmounted id → FIX (keep panel mounted, `hidden`)
+- F4/F5 [low] h1→h3 skip on /posts and /projects → FIX (heading-level props)
+- F6 [low] whole card is one verbose link → FIX (title link + stretched overlay)
+- F7 [low] <time> without dateTime → FIX
+- F8 [low] footer year frozen at build → FIX (drop the year)
+- F9 [low] `url ?? github` + empty url / empty groups → FIX (`||`, skip empty groups)
+- F10 [low] featured-post tie on equal dates is readdir-order dependent → FIX (secondary sort by slug)
+- F11 [low] hero row-reverse vs criterion wording → MERGE INTO PROPOSAL at promote
+- F12 [low] "All 1 posts" → FIX
+- F13 [low, pre-existing] unused getProjectBySlug → IGNORE (no failure scenario, out of scope)
+- F14 [low, pre-existing] drafts reachable by URL → IGNORE (already documented in knowledge 2026-11-20-reference-draft-posts-reachable-by-url)
+- F15 test coverage → IGNORE (no test infra in repo)
+- Review fixes applied (F1–F10, F12): article-link hover variant order; header closes on pathname change + Escape, panel stays mounted with `hidden`; heading-level props on PostCard/ProjectGroups (h2 on /posts and /projects); PostCard title is the link with a stretched ::after overlay (whole card still clickable); <time dateTime>; footer year dropped ("© Derek Honerlaw"); `url || github` and empty groups skipped; same-day posts tie-break by slug; "post"/"posts" pluralization. Re-verified: build passes, tsc 0 errors, criteria greps empty, Playwright: menu Escape/body-link close, card body click navigates, body hover no longer restyles every article link.

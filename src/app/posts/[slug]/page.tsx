@@ -48,7 +48,9 @@ export default async function PostPage({ params }: PageProps) {
       <article className="mt-6">
         <header className="mb-10 flex flex-col gap-4 border-b border-border pb-8">
           <p className="text-sm text-muted-foreground">
-            <time>{formatPostDate(post.frontmatter.date)}</time>
+            <time dateTime={post.frontmatter.date}>
+              {formatPostDate(post.frontmatter.date)}
+            </time>
             <span aria-hidden="true"> · </span>
             {post.readingTime}
           </p>

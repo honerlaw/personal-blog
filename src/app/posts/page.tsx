@@ -27,8 +27,10 @@ export default function PostsPage() {
             title={post.frontmatter.title}
             excerpt={post.frontmatter.excerpt}
             date={formatPostDate(post.frontmatter.date)}
+            dateTime={post.frontmatter.date}
             readingTime={post.readingTime}
             tags={post.frontmatter.tags}
+            headingLevel="h2"
           />
         ))}
       </div>

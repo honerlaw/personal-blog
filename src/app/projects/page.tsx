@@ -42,7 +42,7 @@ export default async function ProjectsPage() {
             <ProjectsIntro groups={projectGroups} />
           </p>
         </div>
-        <ProjectGroups groups={projectGroups} />
+        <ProjectGroups groups={projectGroups} headingLevel="h2" />
       </section>
 
       {otherRepos.length > 0 && (

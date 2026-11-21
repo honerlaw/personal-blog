@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -19,6 +19,21 @@ function isActive(pathname: string, href: string) {
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  // Close the mobile menu after any navigation, not just clicks inside it.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // Close the mobile menu with Escape.
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   return (
     <header className="border-b border-border bg-background">
@@ -64,33 +79,32 @@ export function SiteHeader() {
         </button>
       </div>
 
-      {open && (
-        <nav
-          id="mobile-nav"
-          aria-label="Main"
-          className="border-t border-border md:hidden"
-        >
-          <ul className="mx-auto flex max-w-5xl flex-col px-5 py-2">
-            {navItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={isActive(pathname, item.href) ? "page" : undefined}
-                  onClick={() => setOpen(false)}
-                  className={cn(
-                    "block py-3 text-base",
-                    isActive(pathname, item.href)
-                      ? "font-semibold text-foreground"
-                      : "text-muted-foreground"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+      <nav
+        id="mobile-nav"
+        aria-label="Main"
+        hidden={!open}
+        className="border-t border-border md:hidden"
+      >
+        <ul className="mx-auto flex max-w-5xl flex-col px-5 py-2">
+          {navItems.map((item) => (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                aria-current={isActive(pathname, item.href) ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                className={cn(
+                  "block py-3 text-base",
+                  isActive(pathname, item.href)
+                    ? "font-semibold text-foreground"
+                    : "text-muted-foreground"
+                )}
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </header>
   );
 }

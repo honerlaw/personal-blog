@@ -105,7 +105,7 @@ export default function HomePage() {
             href="/posts"
             className="text-[15px] font-medium text-foreground hover:underline hover:underline-offset-4"
           >
-            All {allPosts.length} posts →
+            All {allPosts.length} {allPosts.length === 1 ? "post" : "posts"} →
           </Link>
         </div>
 
@@ -116,6 +116,7 @@ export default function HomePage() {
             title={featuredPost.frontmatter.title}
             excerpt={featuredPost.frontmatter.excerpt}
             date={formatPostDate(featuredPost.frontmatter.date)}
+            dateTime={featuredPost.frontmatter.date}
             readingTime={featuredPost.readingTime}
             tags={featuredPost.frontmatter.tags}
           />
@@ -130,6 +131,7 @@ export default function HomePage() {
                 title={post.frontmatter.title}
                 excerpt={post.frontmatter.excerpt}
                 date={formatPostDate(post.frontmatter.date)}
+                dateTime={post.frontmatter.date}
                 readingTime={post.readingTime}
                 tags={post.frontmatter.tags}
               />

@@ -67,8 +67,11 @@ export function getAllPosts(): Post[] {
       };
     })
     .filter((post) => post.frontmatter.published !== false)
-    .sort((a, b) => 
-      new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
+    .sort(
+      (a, b) =>
+        new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime() ||
+        // Same-day posts: break the tie by slug so the order does not depend on readdir order.
+        a.slug.localeCompare(b.slug)
     );
 
   return posts;
