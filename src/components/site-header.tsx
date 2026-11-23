@@ -12,6 +12,8 @@ const navItems = [
   { href: "/posts", label: "Writing" },
 ];
 
+const resumeHref = "/resume.pdf";
+
 function isActive(pathname: string, href: string) {
   return href === "/" ? pathname === "/" : pathname.startsWith(href);
 }
@@ -64,6 +66,16 @@ export function SiteHeader() {
                 </Link>
               </li>
             ))}
+            <li>
+              <a
+                href={resumeHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-md px-3.5 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Resume
+              </a>
+            </li>
           </ul>
         </nav>
 
@@ -103,6 +115,17 @@ export function SiteHeader() {
               </Link>
             </li>
           ))}
+          <li>
+            <a
+              href={resumeHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="block py-3 text-base text-muted-foreground"
+            >
+              Resume
+            </a>
+          </li>
         </ul>
       </nav>
     </header>
